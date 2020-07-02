@@ -11,20 +11,20 @@ For a brand new store, this program necessitates documents 'images.csv' and 'des
 images.csv has columns sku, pic0,pic1,...,pic4 and descriptions: sku, description, short_description
 
 ## Getting the data out of Retail Pro 9's Oracle database:
-![ecmproc](docs/ecmproc.PNG)
+![ecmproc](ecmproc.PNG)
 Remote Desktop into the server and open a command prompt.
 Navigate to the E: drive and then cd to E:\ECM
 issue ecmproc -show -out -stid:001001A
 The process takes roughly 2 minutes
 
 ## Wtf did that just do?
-![OUTxml](docs/OUTxmls.PNG)
+![OUTxml](OUTxmls.PNG)
 That "Proc Out" just sent xml files containing all the data regarding your inventory that is 
 necessary for creating Products and Product Options in your BigCommerce store.  Located at
 E:\ECM\Polling\001001A\OUT, these files are ready to be consumed by main.py
 
 ## Running main.py
-![xmlToDataFrame](docs/xmlToDataFrame.PNG)
+![xmlToDataFrame](xmlToDataFrame.PNG)
 Running the first few cells of the script puts the data into a nice pandas DataFrame, which is
 pickled as 'df.pkl' and can be used for all types of reports and analytics about your inventory.
 The program can't finish though, because all of the changes that have been made in the Admin Panel
@@ -32,14 +32,14 @@ first have to be incorporated with this data, so that if someone added an image 
 to a product, then those changes will be refelected in the csv that this script produces.
 
 ## Pulling store changes before .csv import
-![exportFromBC](docs/exportFromBC.PNG)
+![exportFromBC](exportFromBC.PNG)
 An export template named 'python' has been created in the admin panel for hillcrestsports.com, 
 which can be consumed by this script.  In order to run the script to completion, you must "Export 
 Products" using this export tempplate and place it in the 'in/' folder (below)
-![placeInIn](docs/placeInIn.PNG)
+![placeInIn](placeInIn.PNG)
 
 ## The result
-![out](docs/out.PNG)
+![out](out.PNG)
 Run main.py and viola (well, after about 2 minutes of number crunching)! in the out/ folder you'll 
 find a .csv file named out.csv which can be imported into your bigCommerce store (making sure to 
 check the "...using the Bulk Edit template" option).  Import that .csv file and you're done!
@@ -50,13 +50,13 @@ If anything goes wrong, just delete all roducts and reimport the last in-file yo
 bigCommerce
 
 ## Logging
-![logTxt](docs/logTxt.PNG)
+![logTxt](logTxt.PNG)
 Once your import is complete, clisk the "More Information" link in the admin panel and copy the
 contents to Notepad.  Name the file 'log.txt' and place it in the logs/ folder.  Run log.py and 
 your log file will be converted to csv file that matches errors to the places in out.csv where 
 they came from.  log.txt will be placed in the log/archive/ folder
 
-![logCheck](docs/logCheck.PNG)
+![logCheck](logCheck.PNG)
 Most of the time you can check a few and see that nothing actually broke.  Like you can seee here,
 the image file for #Meowtains uploaded just fine. Suck it bigCommerce!
 
