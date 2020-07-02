@@ -32,7 +32,7 @@ first have to be incorporated with this data, so that if someone added an image 
 to a product, then those changes will be refelected in the csv that this script produces.
 
 ## Pulling store changes before .csv import
-![exportFromBC](docs/exportFromBC.PNG
+![exportFromBC](docs/exportFromBC.PNG)
 An export template named 'python' has been created in the admin panel for hillcrestsports.com, 
 which can be consumed by this script.  In order to run the script to completion, you must "Export 
 Products" using this export tempplate and place it in the 'in/' folder (below)
