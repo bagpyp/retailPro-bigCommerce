@@ -19,131 +19,131 @@ pd.options.display.max_rows = 150
 pd.options.display.width = 150
 
 
-# on server cmd prompt, issue: 
-# E:\ECM> ecmproc -out -show -stid:001001A
-# takes roughly 1.5min
+on server cmd prompt, issue: 
+E:\ECM> ecmproc -out -show -stid:001001A
+takes roughly 1.5min
 
 
-# """INVENTORY"""
+"""INVENTORY"""
 
-# #%%
-# inventorys = []
+#%%
+inventorys = []
 
-# for file in glob(r'T:\ECM\Polling\001001A\OUT\Inventory*'):
+for file in glob(r'T:\ECM\Polling\001001A\OUT\Inventory*'):
     
-#     tree = ET.parse(file)
-#     root = tree.getroot()
+    tree = ET.parse(file)
+    root = tree.getroot()
     
-#     invns = root.findall('./INVENTORYS/INVENTORY')
+    invns = root.findall('./INVENTORYS/INVENTORY')
 
 
 
-#     for j in range(len(invns)):
-#         invnTags = invns[j].findall('.*')
-#         pTags = invnTags[2].findall('.*')[2].findall('.*')
-#         qTags = invnTags[2].findall('.*')[3].findall('.*')
-#         inventorys.append(invnTags[0].attrib)
-#         for k in range(1,len(invnTags)):
-#             inventorys[-1].update(invnTags[k].attrib)
-#         for l in range(len(pTags)):
-#             p = pTags[l].attrib
-#             inventorys[-1].update({k+'_'+f"{p['price_lvl']}":v for k,v in p.items()})
-#         for m in range(len(qTags)):
-#             q = qTags[m].attrib
-#             inventorys[-1].update({k+'_'+f"{q['store_no']}":v for k,v in q.items()})
+    for j in range(len(invns)):
+        invnTags = invns[j].findall('.*')
+        pTags = invnTags[2].findall('.*')[2].findall('.*')
+        qTags = invnTags[2].findall('.*')[3].findall('.*')
+        inventorys.append(invnTags[0].attrib)
+        for k in range(1,len(invnTags)):
+            inventorys[-1].update(invnTags[k].attrib)
+        for l in range(len(pTags)):
+            p = pTags[l].attrib
+            inventorys[-1].update({k+'_'+f"{p['price_lvl']}":v for k,v in p.items()})
+        for m in range(len(qTags)):
+            q = qTags[m].attrib
+            inventorys[-1].update({k+'_'+f"{q['store_no']}":v for k,v in q.items()})
 
-# # del tree, root, file,j,k,l,m
+# del tree, root, file,j,k,l,m
 
-# #%%
-# df = pd.DataFrame(inventorys).replace('',np.nan).dropna(axis=1, how='all')
-# for col in df.columns:
-#     if df[col].nunique() == 1:
-#         df.drop(col,inplace=True,axis=1)
+#%%
+df = pd.DataFrame(inventorys).replace('',np.nan).dropna(axis=1, how='all')
+for col in df.columns:
+    if df[col].nunique() == 1:
+        df.drop(col,inplace=True,axis=1)
         
-# # del col
+# del col
 
-# # del p, q, invns, inventorys, pTags, qTags, invnTags
+# del p, q, invns, inventorys, pTags, qTags, invnTags
 
 
-# """CODES"""
+"""CODES"""
 
-# #%%
+#%%
 
-# #vender
-# tree = ET.parse('T:/ECM/Polling/001001A/OUT/Vendor.xml')
-# root = tree.getroot()
+#vender
+tree = ET.parse('T:/ECM/Polling/001001A/OUT/Vendor.xml')
+root = tree.getroot()
 
-# vendors = []
+vendors = []
 
-# vens = root.findall('./VENDORS/VENDOR')
-# for i in range(len(vens)):
-#     vendors.append(vens[i].attrib)
+vens = root.findall('./VENDORS/VENDOR')
+for i in range(len(vens)):
+    vendors.append(vens[i].attrib)
 
-# v = pd.DataFrame(vendors).iloc[:,[0,2]].rename(columns={'vend_name':'BRAND'})
+v = pd.DataFrame(vendors).iloc[:,[0,2]].rename(columns={'vend_name':'BRAND'})
 
-# # del vens, vendors
-# #%%
+# del vens, vendors
+#%%
 
-# #cats
-# tree = ET.parse('T:/ECM/Polling/001001A/OUT/DCS.xml')
-# root = tree.getroot()
+#cats
+tree = ET.parse('T:/ECM/Polling/001001A/OUT/DCS.xml')
+root = tree.getroot()
 
-# categories = []
+categories = []
 
-# cats = root.findall('./DCSS/DCS')
-# for i in range(len(cats)):
-#     categories.append(cats[i].attrib)
+cats = root.findall('./DCSS/DCS')
+for i in range(len(cats)):
+    categories.append(cats[i].attrib)
 
-# c = pd.DataFrame(categories).iloc[:,[0,2,3,4]]
-# # format text
-# c.iloc[:,1:]=c.iloc[:,1:].applymap(str.title)
-# #drop 5- and 7- length strings
-# c = c[(c.dcs_code.str.len()==6)|(c.dcs_code.str.len()==9)]\
-#     .reset_index(drop=True)
-# #map = dict(v.values)  
+c = pd.DataFrame(categories).iloc[:,[0,2,3,4]]
+# format text
+c.iloc[:,1:]=c.iloc[:,1:].applymap(str.title)
+#drop 5- and 7- length strings
+c = c[(c.dcs_code.str.len()==6)|(c.dcs_code.str.len()==9)]\
+    .reset_index(drop=True)
+#map = dict(v.values)  
     
-# # del cats, categories
+# del cats, categories
 
-# def D(x):
-#     return x[:3]
-# def C(x):
-#     return x[3:6]
-# def S(x):
-#     if len(x) == 9:
-#         return x[6:9]
-#     else: return ''
+def D(x):
+    return x[:3]
+def C(x):
+    return x[3:6]
+def S(x):
+    if len(x) == 9:
+        return x[6:9]
+    else: return ''
 
-# c = c.join(pd.Series(c.dcs_code.values).transform([D,C,S]))
-# c['CAT'] = c.iloc[:,[1,2,3]].apply(\
-#     lambda x: '/'.join(x.dropna().values.tolist()), axis=1)\
-#     .apply(lambda x: x[:-1] if x[-1]=='/' else x)
-# c = c.iloc[:,[0,4,5,6,7]]
-# # del D, C, S
+c = c.join(pd.Series(c.dcs_code.values).transform([D,C,S]))
+c['CAT'] = c.iloc[:,[1,2,3]].apply(\
+    lambda x: '/'.join(x.dropna().values.tolist()), axis=1)\
+    .apply(lambda x: x[:-1] if x[-1]=='/' else x)
+c = c.iloc[:,[0,4,5,6,7]]
+# del D, C, S
 
-# #%%
+#%%
 
-# df = pd.merge(df, c, on='dcs_code', how='left', sort=False)
-# df = pd.merge(df, v, on='vend_code', how='left', sort=False)
+df = pd.merge(df, c, on='dcs_code', how='left', sort=False)
+df = pd.merge(df, v, on='vend_code', how='left', sort=False)
 
-# # del c, v
+# del c, v
 
-# names = {'item_no':'sku','local_upc':'UPC','alu':'alu','CAT':'CAT',
-#          'BRAND':'BRAND','description1':'name','description2':'year',
-#          'attr':'color','siz':'size','qty_0':'qty0','qty_1':'qty1',
-#          'qty_250':'qty','cost':'cost','price_1':'pSale',
-#          'price_2':'pMAP','price_3':'pMSRP','price_4':'pAmazon',
-#          'price_5':'pSWAP',
-#          'created_date':'fCreated','fst_rcvd_date':'fRcvd',
-#          'lst_rcvd_date':'lRcvd','lst_sold_date':'lSold','modified_date':'lEdit',
-#          'vend_code':'VC','dcs_code':'DCS','D':'D',
-#          'C':'C','S':'S','style_sid':'ssid','item_sid':'isid','upc':'UPC2'}
-# df.rename(columns=names, inplace=True)
-# df = df[list(names.values())]
+names = {'item_no':'sku','local_upc':'UPC','alu':'alu','CAT':'CAT',
+          'BRAND':'BRAND','description1':'name','description2':'year',
+          'attr':'color','siz':'size','qty_0':'qty0','qty_1':'qty1',
+          'qty_250':'qty','cost':'cost','price_1':'pSale',
+          'price_2':'pMAP','price_3':'pMSRP','price_4':'pAmazon',
+          'price_5':'pSWAP',
+          'created_date':'fCreated','fst_rcvd_date':'fRcvd',
+          'lst_rcvd_date':'lRcvd','lst_sold_date':'lSold','modified_date':'lEdit',
+          'vend_code':'VC','dcs_code':'DCS','D':'D',
+          'C':'C','S':'S','style_sid':'ssid','item_sid':'isid','upc':'UPC2'}
+df.rename(columns=names, inplace=True)
+df = df[list(names.values())]
 
-# # del names
+# del names
 
-# """ THIS IS WHERE THE PICKLE'S AT!"""
-# df.to_pickle('fromECM.pkl')
+""" THIS IS WHERE THE PICKLE'S AT!"""
+df.to_pickle('fromECM.pkl')
 
 #%%
 
@@ -472,7 +472,7 @@ df['PV'] = np.where((df.pic0.notnull())&(df.qty>0),'Y','N')
 df['words'] = df[['webName','BRAND', 'color', 'size']] \
     .fillna('').apply(' '.join, axis=1).str.replace(' ',', ')
 
-df.to_pickle('optionDf')
+df.to_pickle('optionDf.pkl')
 
 
 
@@ -480,7 +480,7 @@ df.to_pickle('optionDf')
 
 # uploady time baby
 
-df = pd.read_pickle('optionDf')
+df = pd.read_pickle('optionDf.pkl')
 
 
 
