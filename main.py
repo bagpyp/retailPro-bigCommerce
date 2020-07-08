@@ -19,9 +19,9 @@ pd.options.display.max_rows = 150
 pd.options.display.width = 150
 
 
-on server cmd prompt, issue: 
-E:\ECM> ecmproc -out -show -stid:001001A
-takes roughly 1.5min
+# on server cmd prompt, issue: 
+# E:\ECM> ecmproc -out -show -stid:001001A
+# takes roughly 1.5min
 
 
 """INVENTORY"""
@@ -173,12 +173,12 @@ df.sku = df.sku.astype(str).str.zfill(5)
 
 df.reset_index(drop=True, inplace=True)
 df.set_index('sku', inplace=True)
-df.to_pickle('forBCL.pkl')
-#%%
+# df.to_pickle('forBCL.pkl')
+# #%%
 
-""" PICKING UP PICS AND DESCS"""
+# """ PICKING UP PICS AND DESCS"""
 
-df = pd.read_pickle('forBCL.pkl')
+# df = pd.read_pickle('forBCL.pkl')
 img = pd.read_csv('images.csv')
 desc = pd.read_csv('descriptions.csv')
 def f(df):
@@ -686,6 +686,7 @@ comp = pd.read_csv(file)\
 comp.loc[:,ix[0]]=comp.loc[:,ix[0]].str.strip()
 comp.set_index(ix,inplace=True)
 # for production
+end = dt.now()
 os.rename(file,f'archive/ins/in_{str(end.date())} {end.hour}-{end.minute}-{end.second}.csv')
 cols = imgCols\
     +['Product ID','Product Description']
@@ -697,7 +698,7 @@ out['Product ID'] = out['Product ID'].fillna('-1.0').astype(float).astype(int).a
 #%%
 
 out.to_csv('out/out.csv', quotechar="\"", index=False)
-end = dt.now()
+
 out.to_pickle(f'archive/outs/out_{str(end.date())} {end.hour}-{end.minute}-{end.second}.pkl')
 
 print('Process complete!')
