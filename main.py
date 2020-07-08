@@ -9,7 +9,8 @@ print('this process takes roughly two minutes, please be patient.')
 from datetime import datetime as dt
 # get it!
 import pandas as pd
-
+import requests
+import json
 import numpy as np
 import xml.etree.ElementTree as ET
 from glob import glob
@@ -673,32 +674,120 @@ imgCols = ['Product Image ID - 1',
  'Product Image Is Thumbnail - 5',
  'Product Image Index - 5']
 
-comp = pd.read_csv(file)\
-    .rename(columns={\
-                    'Product Visible':'Product Visible?',
-                    'Allow Purchases':'Allow Purchases?',
-                    'Description':'Product Description',
-                    'Product SKU':'Product Code/SKU',
-                    'Category String':'Category',
-                    'Weight':'Product Weight'\
-              })
+# comp = pd.read_csv(file)\
+#     .rename(columns={\
+#                     'Product Visible':'Product Visible?',
+#                     'Allow Purchases':'Allow Purchases?',
+#                     'Description':'Product Description',
+#                     'Product SKU':'Product Code/SKU',
+#                     'Category String':'Category',
+#                     'Weight':'Product Weight'\
+#               })
 
-comp.loc[:,ix[0]]=comp.loc[:,ix[0]].str.strip()
-comp.set_index(ix,inplace=True)
-# for production
-end = dt.now()
-os.rename(file,f'archive/ins/in_{str(end.date())} {end.hour}-{end.minute}-{end.second}.csv')
-cols = imgCols\
-    +['Product ID','Product Description']
-out = out.reindex(list(set(out.columns.tolist()+cols)),axis=1).set_index(ix)
-out.update(comp.loc[:,cols])
-out = out.reset_index()
-out['Product ID'] = out['Product ID'].fillna('-1.0').astype(float).astype(int).astype(str).replace('-1',np.nan)
+# comp.loc[:,ix[0]]=comp.loc[:,ix[0]].str.strip()
+# comp.set_index(ix,inplace=True)
+# # for production
+# end = dt.now()
+# os.rename(file,f'archive/ins/in_{str(end.date())} {end.hour}-{end.minute}-{end.second}.csv')
+# cols = imgCols\
+#     +['Product ID','Product Description']
+# out = out.reindex(list(set(out.columns.tolist()+cols)),axis=1).set_index(ix)
+# out.update(comp.loc[:,cols])
+# out = out.reset_index()
+# out['Product ID'] = out['Product ID'].fillna('-1.0').astype(float).astype(int).astype(str).replace('-1',np.nan)
+
+
+
+
+
+
+"""WITH IN FILE"""
+
+comp = pd.read_csv(file,dtype={'Product ID':str}).rename(columns={'Product SKU':'Product Code/SKU'})                                
+comp.loc[:,'Item Type'] = comp['Item Type'].str.strip()
+out = out.reindex(out.columns.tolist()+['Product ID'],axis=1)
+out.set_index(ix,inplace=True)
+comp.set_index(ix, inplace=True)
+out.update(comp)
+out.reset_index(inplace=True)
+out = out.reindex(sorted(out.columns),axis=1)
+
+
+
+"""WITH API"""
+#%%
+
+def skusIds(n):
+    
+    """
+    
+    In [66]: x = getSkusFromPage(4)
+    
+    In [67]: x['meta']['pagination']['total_pages']
+    Out[68]: 31
+    
+    In [68]: x['data']
+    Out[69]: 
+    [{'id': 172356, 'sku': '0-06738'},
+     {'id': 172357, 'sku': '0-14688'},
+     {'id': 172358, 'sku': '0-07251'},
+     {'id': 172359, 'sku': '2-04474'},
+     {'id': 172360, 'sku': '0-00729'},
+     {'id': 172361, 'sku': '2-00510'},
+     {'id': 172362, 'sku': '2-33231'},
+     {'id': 172363, 'sku': '0-24316'},
+     {'id': 172364, 'sku': '0-30488'},
+     
+     
+    In [68]: pd.DataFrame(x['data'])
+    Out[70]: 
+             id      sku
+    0    172356  0-06738
+    1    172357  0-14688
+    2    172358  0-07251
+    3    172359  2-04474
+    4    172360  0-00729
+    ..      ...      ...
+    245  172601  0-05536
+    246  172602  0-49575
+    247  172603  0-03107
+    248  172604  2-03106
+    249  172605  0-48275
+
+    Parameters
+    ----------
+    n : the page number, right now betwwen 1 and 31 inclusive
+    
+    Returns
+    -------
+    json response object
+    
+    """
+    headers = {
+    'x-auth-client': "eptlgcc4vesdj5jp2as53w2gm6iyg7z",
+    'x-auth-token': "9ksoui1m1rfkhvdm40zxv4ov605o1cc",
+    'accept': 'application/json'
+    } # access tokens    
+    base = 'https://api.bigcommerce.com/stores/gaywsgumtw/'
+    path = base + f'v3/catalog/variants?limit=250&include_fields=sku&page={n}'
+    res = requests.get(url=path, headers=headers)
+    return json.loads(res.text)
+
+call = skusIds(1)
+data = call['data']
+pages = call['meta']['pagination']['total_pages']
+for i in range(2,pages+1):
+    print(f'{i}/{pages} calls made')
+    data.extend(skusIds(i)['data'])
+
+ids = pd.DataFrame(data)
+ids.to_pickle('calledIDs.pkl')
+
 
 #%%
 
 out.to_csv('out/out.csv', quotechar="\"", index=False)
-
+end = dt.now()
 out.to_pickle(f'archive/outs/out_{str(end.date())} {end.hour}-{end.minute}-{end.second}.pkl')
 
 print('Process complete!')
