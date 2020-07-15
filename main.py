@@ -1,44 +1,42 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed May 27 15:39:10 2020
-
-@author: Web
+@author: rtc@bagpyp.net
 """
 
-print('this process takes roughly two minutes, please be patient.')
+# API CREDENTIALS
+
+print('this process takes roughly ten minutes, please be patient.')
+
 from datetime import datetime as dt
-# get it!
+from datetime import timedelta as td
+beginning = dt.now()
 import pandas as pd
-import requests
-import json
 import numpy as np
 import xml.etree.ElementTree as ET
 from glob import glob
+import requests
+import json
 import os
 pd.options.display.max_columns = 80
-pd.options.display.max_rows = 150
+pd.options.display.max_rows = 1000
 pd.options.display.width = 150
 
+#%% RUN ECM
+print('beginning EM station procout ~3min')
 
-# on server cmd prompt, issue: 
-# E:\ECM> ecmproc -out -show -stid:001001A
-# takes roughly 1.5min
+os.system('T: && cd ECM && ecmproc -out -a -stid:001001A')
 
+print('ECM procout complete, consuming XML files from RetailPro ~2min')
 
-"""INVENTORY"""
+#%% PULL INVENTORY
 
-#%%
 inventorys = []
 
-for file in glob(r'T:\ECM\Polling\001001A\OUT\Inventory*'):
-    
+for file in glob(r'T:\ECM\Polling\001001A\OUT\Inventory*'):    
     tree = ET.parse(file)
-    root = tree.getroot()
-    
+    root = tree.getroot()    
     invns = root.findall('./INVENTORYS/INVENTORY')
-
-
-
     for j in range(len(invns)):
         invnTags = invns[j].findall('.*')
         pTags = invnTags[2].findall('.*')[2].findall('.*')
@@ -53,22 +51,15 @@ for file in glob(r'T:\ECM\Polling\001001A\OUT\Inventory*'):
             q = qTags[m].attrib
             inventorys[-1].update({k+'_'+f"{q['store_no']}":v for k,v in q.items()})
 
-# del tree, root, file,j,k,l,m
-
-#%%
 df = pd.DataFrame(inventorys).replace('',np.nan).dropna(axis=1, how='all')
+df = df[df.active=='1']
 for col in df.columns:
     if df[col].nunique() == 1:
         df.drop(col,inplace=True,axis=1)
         
-# del col
-
-# del p, q, invns, inventorys, pTags, qTags, invnTags
 
 
 """CODES"""
-
-#%%
 
 #vender
 tree = ET.parse('T:/ECM/Polling/001001A/OUT/Vendor.xml')
@@ -80,10 +71,9 @@ vens = root.findall('./VENDORS/VENDOR')
 for i in range(len(vens)):
     vendors.append(vens[i].attrib)
 
-v = pd.DataFrame(vendors).iloc[:,[0,2]].rename(columns={'vend_name':'BRAND'})
-
-# del vens, vendors
-#%%
+v = pd.DataFrame(vendors)
+v = v[v.active=='1']
+v = v.iloc[:,[0,2]].rename(columns={'vend_name':'BRAND'})
 
 #cats
 tree = ET.parse('T:/ECM/Polling/001001A/OUT/DCS.xml')
@@ -95,15 +85,14 @@ cats = root.findall('./DCSS/DCS')
 for i in range(len(cats)):
     categories.append(cats[i].attrib)
 
-c = pd.DataFrame(categories).iloc[:,[0,2,3,4]]
+c = pd.DataFrame(categories)
+c = c[c.active=='1'].iloc[:,[0,2,3,4]]
 # format text
 c.iloc[:,1:]=c.iloc[:,1:].applymap(str.title)
-#drop 5- and 7- length strings
+
+# dropping all DCS values that are not 6 or 9 characters long
 c = c[(c.dcs_code.str.len()==6)|(c.dcs_code.str.len()==9)]\
     .reset_index(drop=True)
-#map = dict(v.values)  
-    
-# del cats, categories
 
 def D(x):
     return x[:3]
@@ -119,52 +108,56 @@ c['CAT'] = c.iloc[:,[1,2,3]].apply(\
     lambda x: '/'.join(x.dropna().values.tolist()), axis=1)\
     .apply(lambda x: x[:-1] if x[-1]=='/' else x)
 c = c.iloc[:,[0,4,5,6,7]]
-# del D, C, S
 
-#%%
-
+# putting cats and vends together
 df = pd.merge(df, c, on='dcs_code', how='left', sort=False)
 df = pd.merge(df, v, on='vend_code', how='left', sort=False)
 
-# del c, v
+#naming and ordering df
+names = {'alu':'sku','local_upc':'UPC','description4':'alu','CAT':'CAT',
+    'BRAND':'BRAND','description1':'name','description2':'year',
+    'attr':'color','description3':'alt_color','siz':'size','qty_0':'qty0',
+    'qty_1':'qty1','qty_250':'qty','cost':'cost','price_1':'pSale',
+    'price_2':'pMAP','price_3':'pMSRP','price_4':'pAmazon',
+    'price_5':'pSWAP',
+    'created_date':'fCreated','fst_rcvd_date':'fRcvd',
+    'lst_rcvd_date':'lRcvd','lst_sold_date':'lSold','modified_date':'lEdit',
+    'vend_code':'VC','dcs_code':'DCS','D':'D',
+    'C':'C','S':'S','style_sid':'ssid','item_sid':'isid','upc':'UPC2'}
 
-names = {'item_no':'sku','local_upc':'UPC','alu':'alu','CAT':'CAT',
-          'BRAND':'BRAND','description1':'name','description2':'year',
-          'attr':'color','siz':'size','qty_0':'qty0','qty_1':'qty1',
-          'qty_250':'qty','cost':'cost','price_1':'pSale',
-          'price_2':'pMAP','price_3':'pMSRP','price_4':'pAmazon',
-          'price_5':'pSWAP',
-          'created_date':'fCreated','fst_rcvd_date':'fRcvd',
-          'lst_rcvd_date':'lRcvd','lst_sold_date':'lSold','modified_date':'lEdit',
-          'vend_code':'VC','dcs_code':'DCS','D':'D',
-          'C':'C','S':'S','style_sid':'ssid','item_sid':'isid','upc':'UPC2'}
 df.rename(columns=names, inplace=True)
 df = df[list(names.values())]
 
-# del names
 
-""" THIS IS WHERE THE PICKLE'S AT!"""
+""" THIS IS WHERE THE PICKLE'S AT! """
+
+# risky filter:
+df = df[df.lEdit>str(dt.now()-td(days=5))]
+
 df.to_pickle('fromECM.pkl')
 
-#%%
-
+#%% correcting dtypes, filtering further and tidying data
 df = pd.read_pickle('fromECM.pkl')
 
-"""EDITING"""
+print('Transforming data from RetailPro to BigCommerce-consumable format, ~1min')
 
 #dtypes
-for i in range(9,18): df.iloc[:,i] = pd.to_numeric(df.iloc[:,i])
-for i in range(18,23): df.iloc[:,i] = pd.to_datetime(df.iloc[:,i])
+for i in range(10,19): df.iloc[:,i] = pd.to_numeric(df.iloc[:,i])
+df.iloc[:,13:19] = df.iloc[:,13:19].round(2)
+df.iloc[:,10:13] = df.iloc[:,10:13].fillna(0).astype(int)
+for i in range(19,24): df.iloc[:,i] = pd.to_datetime(df.iloc[:,i])
 df.lEdit = df.lEdit.dt.tz_localize(None)
 
-# del i
 
-#filtering by UPC, printing csv of discarded
-df = df[df.DCS.str.match(r'^((?!USD|REN).)*$')]
+#filtering by category
+surDf = df[~df.DCS.str.match(r'^((?!USD|REN|SER).)*$')]
+surDf.to_csv('usedRentalAndService.csv')
+df = df[df.DCS.str.match(r'^((?!USD|REN|SER).)*$')]
 
-#%%
+# filters products without UPCs w/ length 11, 12 or 13.
+df = df[(df.UPC.str.len().isin([11,12,13]))]
 
-df = df[(df.UPC.str.len().isin([11,12,13]))&(df.UPC2.notnull())]
+
 df.drop('UPC2', axis=1, inplace=True)
 
 #sort by sku
@@ -174,12 +167,7 @@ df.sku = df.sku.astype(str).str.zfill(5)
 
 df.reset_index(drop=True, inplace=True)
 df.set_index('sku', inplace=True)
-# df.to_pickle('forBCL.pkl')
-# #%%
 
-# """ PICKING UP PICS AND DESCS"""
-
-# df = pd.read_pickle('forBCL.pkl')
 img = pd.read_csv('images.csv')
 desc = pd.read_csv('descriptions.csv')
 def f(df):
@@ -188,69 +176,48 @@ def f(df):
     df.set_index('sku',inplace=True)
     return df
 img = f(img)
-desc=f(desc)
+desc = f(desc)
 
 df= df.join(img, how='left').join(desc, how='left')
-
-# del img, desc
-
 df.to_pickle('df.pkl')
 
-# del df
 
+#%% BEGIN BIGCOMMERCE TRANSFORMATION
 
-#%%
-"""BIG COMMERCE"""
+df = pd.read_pickle('df.pkl').reset_index(drop=False)  
+
 dCAT = {\
-'Misc':'Misc',
-'Service/Ski/Tune':'Service',
-'Service/Snowboard/Wax':'Service',
-'Service/Ski/Polepart':'Service',
-'Service/Ski/Bindngpart':'Service',
-'Service/Snowboard/Tune':'Service',
-'Service/Ski/Brakes':'Service',
-'Service/Ski/Mount':'Service',
-'Service/Snowboard/Mount':'Service',
-'Service/Ski/Bootfit':'Service',
-'Service/Snowboard/Bindngpart':'Service',
-'Service/Snowboard/Boot Part':'Service',
-'Service/Ski/Boot Part':'Service',
-'Service/Ski/Wax':'Service',
-'Service/Ski/BindngPart':'Service',
 'Disc Golf/Bag':'Misc',
 'Electronic/Audio':'Misc',
 'Electronic/Camera/Accessory':'Misc',
-'Eyewear/Goggles/Accessory':'Gear/Goggles/Accessory',
-'Eyewear/Goggles/Moto':'Gear/Goggles/Accessory',
-'Eyewear/Goggles/Rep. Lens':'Gear/Goggles/Accessory',
-'Eyewear/Goggles/Unisex':'Gear/Goggles/Adult',
-'Eyewear/Goggles/Womens':'Gear/Goggles/Adult',
-'Eyewear/Goggles/Youth':'Gear/Goggles/Youth',
-'Eyewear/Sunglasses/Accessory':'Lifestyle/Accessory',
-'Eyewear/Sunglasses/Unisex':'Lifestyle/Accessory',
-'Eyewear/Sunglasses/Womens':'Lifestyle/Accessory',
-'FBA/Bindings/Womens':'Misc',
-'FBA/Board/Youth':'Misc',
-'Headwear/Beanie':'Gear/Headwear/Beanie',
-'Headwear/Facemask':'Gear/Headwear/Facemask',
+'Eyewear/Goggles/Accessory':'Mountain Gear/Goggles/Accessory',
+'Eyewear/Goggles/Moto':'Mountain Gear/Goggles/Accessory',
+'Eyewear/Goggles/Rep. Lens':'Mountain Gear/Goggles/Accessory',
+'Eyewear/Goggles/Unisex':'Mountain Gear/Goggles/Adult',
+'Eyewear/Goggles/Womens':'Mountain Gear/Goggles/Women',
+'Eyewear/Goggles/Youth':'Mountain Gear/Goggles/Youth',
+'Eyewear/Sunglasses/Accessory':'Lifestyle/Sunglasses/Accessory',
+'Eyewear/Sunglasses/Unisex':'Lifestyle/Sunglasses/Unisex',
+'Eyewear/Sunglasses/Womens':'Lifestyle/Sunglasses/Womens',
+'Headwear/Beanie':'Mountain Gear/Headwear/Beanie',
+'Headwear/Facemask':'Mountain Gear/Headwear/Facemask',
 'Headwear/Hat':'Lifestyle/Accessory',
 'Hike/Pack/Accessory':'Lifestyle/Accessory',
 'Hike/Pack/Hydration':'Lifestyle/Accessory',
 'Hike/Pack/Map/Book':'Lifestyle/Accessory',
 'Hike/Pack/Mens/Shoes':'Lifestyle/Men/Shoes',
-'Hike/Pack/Snowboard/Shoes':'Lifestyle/Men/Shoes',
 'Hike/Pack/Womens/Shoes':'Lifestyle/Women/Shoes',
 'Kayak/Accessory':'Watersport/Kayak',
 'Lifejacket/Neoprene/Dog':'Watersport/Life Jackets/Dog',
-'Lifejacket/Neoprene/Men':'Watersport/Life Jackets/Adult',
-'Lifejacket/Neoprene/Womens':'Watersport/Life Jackets/Adult',
+'Lifejacket/Neoprene/Men':'Watersport/Life Jackets/Men',
+'Lifejacket/Neoprene/Womens':'Watersport/Life Jackets/Women',
 'Lifejacket/Neoprene/Youth':'Watersport/Life Jackets/Youth',
-'Lifejacket/Nylon/Men':'Watersport/Life Jackets/Adult',
-'Lifejacket/Nylon/Womens':'Watersport/Life Jackets/Adult',
+'Lifejacket/Nylon/Men':'Watersport/Life Jackets/Men',
+'Lifejacket/Nylon/Womens':'Watersport/Life Jackets/Women',
 'Lifejacket/Nylon/Youth':'Watersport/Life Jackets/Youth',
-'Mens/Baselayer/Bottom':'Gear/Base Layer/Men',
-'Mens/Baselayer/Suit':'Gear/Base Layer/Men',
-'Mens/Baselayer/Top':'Gear/Base Layer/Men',
+'Mens/Baselayer/Bottom':'Mountain Gear/Base Layer/Men',
+'Mens/Baselayer/Suit':'Mountain Gear/Base Layer/Men',
+'Mens/Baselayer/Top':'Mountain Gear/Base Layer/Men',
 'Mens/Lifestyle/Accessory':'Lifestyle/Men/Accessory',
 'Mens/Lifestyle/Bag':'Lifestyle/Men/Accessory',
 'Mens/Lifestyle/Jacket':'Lifestyle/Men/Jacket',
@@ -258,12 +225,12 @@ dCAT = {\
 'Mens/Lifestyle/Shoes':'Lifestyle/Men/Shoes',
 'Mens/Lifestyle/Shorts':'Lifestyle/Men/Shorts',
 'Mens/Lifestyle/Top':'Lifestyle/Men/Tops',
-'Mens/Midlayer':'Gear/Midlayer/Men',
-'Mens/Outerwear/Gloves':'Gear/Gloves/Adult',
-'Mens/Outerwear/Jackets':'Gear/Jacket/Men',
-'Mens/Outerwear/Mittens':'Gear/Gloves/Adult',
-'Mens/Outerwear/Pants':'Gear/Pants/Men',
-'Mens/Outerwear/Suit':'Gear/Outerwear',
+'Mens/Midlayer':'Mountain Gear/Midlayer/Men',
+'Mens/Outerwear/Gloves':'Mountain Gear/Gloves/Men',
+'Mens/Outerwear/Jackets':'Mountain Gear/Jacket/Men',
+'Mens/Outerwear/Mittens':'Mountain Gear/Gloves/Women',
+'Mens/Outerwear/Pants':'Mountain Gear/Pants/Men',
+'Mens/Outerwear/Suit':'Mountain Gear/Outerwear',
 'Mens/Swimwear/Shorts':'Lifestyle/Men/Shorts',
 'Race/Night':'Misc',
 'Safety/Avalanche/Probe':'Misc',
@@ -277,7 +244,6 @@ dCAT = {\
 'Safety/Race/Ski':'Ski/Accessory',
 'Skateboard/Accessory':'Skate/Accessory',
 'Skateboard/Bearings':'Skate/Bearings',
-'Skateboard/Complete':'Skate/Complete',
 'Skateboard/Complete/Street':'Skate/Complete',
 'Skateboard/Completes/Long Board':'Skate/Complete',
 'Skateboard/Deck/Street':'Skate/Decks',
@@ -292,23 +258,23 @@ dCAT = {\
 'Ski/Accessory/Insoles':'Ski/Accessory',
 'Ski/Bags/Backpack':'Ski/Accessory',
 'Ski/Bags/Boot':'Ski/Accessory',
-'Ski/Bags/Gear':'Ski/Accessory',
+'Ski/Bags/Mountain Gear/':'Ski/Accessory',
 'Ski/Bags/Ski':'Ski/Accessory',
-'Ski/Bindings/Mens':'Ski/Bindings/Adult',
-'Ski/Bindings/Womens':'Ski/Bindings/Adult',
+'Ski/Bindings/Mens':'Ski/Bindings/Men',
+'Ski/Bindings/Womens':'Ski/Bindings/Women',
 'Ski/Bindings/Youth':'Ski/Bindings/Youth',
 'Ski/Boots/Accessory':'Ski/Accessory',
 'Ski/Boots/Liner':'Ski/Accessory',
-'Ski/Boots/Mens':'Ski/Boots/Adult',
+'Ski/Boots/Mens':'Ski/Boots/Men',
 'Ski/Boots/Parts':'Ski/Boots/Parts',
-'Ski/Boots/Womens':'Ski/Boots/Adult',
+'Ski/Boots/Womens':'Ski/Boots/Women',
 'Ski/Boots/Youth':'Ski/Boots/Youth',
 'Ski/Poles/Accessory':'Ski/Accessory',
 'Ski/Poles/Adult':'Ski/Poles/Adult',
 'Ski/Poles/Baskets':'Ski/Accessory',
 'Ski/Poles/Youth':'Ski/Poles/Youth',
-'Ski/Skis/Mens':'Ski/Skis/Adult',
-'Ski/Skis/Womens':'Ski/Skis/Adult',
+'Ski/Skis/Mens':'Ski/Skis/Men',
+'Ski/Skis/Womens':'Ski/Skis/Women',
 'Ski/Skis/Youth':'Ski/Skis/Youth',
 'Ski/Socks/Adult':'Ski/Socks/Adult',
 'Ski/Socks/Youth':'Ski/Socks/Youth',
@@ -317,18 +283,17 @@ dCAT = {\
 'Ski/X-Country/Bindings':'Ski/Accessory',
 'Ski/X-Country/Boots':'Ski/Accessory',
 'Ski/X-Country/Skis':'Ski/Accessory',
-'Snowboard/Accessorie/StompPads':'Snowboard/Accessory',
 'Snowboard/Accessory':'Snowboard/Accessory',
 'Snowboard/Bags/Backpack':'Snowboard/Bags/Backpack',
 'Snowboard/Bags/Board Bag':'Snowboard/Bags/Board',
-'Snowboard/Bags/Gear':'Snowboard/Bags/Gear',
+'Snowboard/Bags/Mountain Gear/':'Snowboard/Bags/Mountain Gear/',
 'Snowboard/Bags/Travel':'Snowboard/Bags/Travel',
 'Snowboard/Bags/Wheel':'Snowboard/Bags/Wheel',
 'Snowboard/Bindings/Unisex':'Snowboard/Bindings/Adult',
-'Snowboard/Bindings/Women':'Snowboard/Bindings/Adult',
+'Snowboard/Bindings/Women':'Snowboard/Bindings/Women',
 'Snowboard/Bindings/Youth':'Snowboard/Bindings/Youth',
-'Snowboard/Board/Mens':'Snowboard/Board/Adult',
-'Snowboard/Board/Womens':'Snowboard/Board/Adult',
+'Snowboard/Board/Mens':'Snowboard/Board/Men',
+'Snowboard/Board/Womens':'Snowboard/Board/Women',
 'Snowboard/Board/Youth':'Snowboard/Board/Youth',
 'Snowboard/Boots/Mens':'Snowboard/Boots/Men',
 'Snowboard/Boots/Womens':'Snowboard/Boots/Women',
@@ -351,9 +316,6 @@ dCAT = {\
 'Watersport/Kneeboard/Board':'Watersport/Kneeboard',
 'Watersport/Rashguard/Mens':'Watersport/Outfit/Rashguard',
 'Watersport/Rashguard/Womens':'Watersport/Outfit/Rashguard',
-'Watersport/SUP/Accessory':'Watersport/Paddleboard',
-'Watersport/SUP/Hard':'Watersport/Paddleboard',
-'Watersport/SUP/Inflatable':'Watersport/Paddleboard',
 'Watersport/Ski/Accessory':'Watersport/Water Ski/Accessory',
 'Watersport/Ski/Bag':'Watersport/Water Ski/Accessory',
 'Watersport/Ski/Bindings':'Watersport/Water Ski/Accessory',
@@ -366,10 +328,10 @@ dCAT = {\
 'Watersport/Wetsuit/Womens':'Watersport/Outfit/Wetsuit',
 'Watersport/Wetsuit/Youth':'Watersport/Outfit/Wetsuit',
 'Winter/Equipment':'Misc',
-'Women/Outerwear/Suit':'Gear/Outerwear',
-'Womens/Baselayer/Bottom':'Gear/Base Layer/Women',
-'Womens/Baselayer/Suit':'Gear/Base Layer/Women',
-'Womens/Baselayer/Top':'Gear/Base Layer/Women',
+'Women/Outerwear/Suit':'Mountain Gear/Outerwear',
+'Womens/Baselayer/Bottom':'Mountain Gear/Base Layer/Women',
+'Womens/Baselayer/Suit':'Mountain Gear/Base Layer/Women',
+'Womens/Baselayer/Top':'Mountain Gear/Base Layer/Women',
 'Womens/Lifestyle/Accessory':'Lifestyle/Women/Accessory',
 'Womens/Lifestyle/Dress':'Lifestyle/Women/Dress',
 'Womens/Lifestyle/Jacket':'Lifestyle/Women/Jacket',
@@ -378,35 +340,71 @@ dCAT = {\
 'Womens/Lifestyle/Shoes':'Lifestyle/Women/Shoes',
 'Womens/Lifestyle/Shorts':'Lifestyle/Women/Shorts',
 'Womens/Lifestyle/Top':'Lifestyle/Women/Tops',
-'Womens/Midlayer':'Gear/Midlayer/Women',
-'Womens/Outerwear/Gloves':'Gear/Gloves/Adult',
-'Womens/Outerwear/Jacket':'Gear/Jacket/Women',
-'Womens/Outerwear/Mittens':'Gear/Mittens/Adult',
-'Womens/Outerwear/Pants':'Gear/Pants/Women',
+'Womens/Midlayer':'Mountain Gear/Midlayer/Women',
+'Womens/Outerwear/Gloves':'Mountain Gear/Gloves/Women',
+'Womens/Outerwear/Jacket':'Mountain Gear/Jacket/Women',
+'Womens/Outerwear/Mittens':'Mountain Gear/Mittens/Women',
+'Womens/Outerwear/Pants':'Mountain Gear/Pants/Women',
 'Womens/Swimwear':'Lifestyle/Women/Swimwear',
-'Youth/Baselayer/Bottom':'Gear/Base Layer/Youth',
-'Youth/Baselayer/Suit':'Gear/Base Layer/Youth',
-'Youth/Baselayer/Top':'Gear/Base Layer/Youth',
-'Youth/Outerwear/Gloves':'Gear/Gloves/Youth',
-'Youth/Outerwear/Jacket':'Gear/Jacket/Youth',
-'Youth/Outerwear/Mittens':'Gear/Mittens/Youth',
-'Youth/Outerwear/Pants':'Gear/Pants/Youth'}
-#%% 
-df = pd.read_pickle('df.pkl').reset_index(drop=False)  
-
-
+'Youth/Baselayer/Bottom':'Mountain Gear/Base Layer/Youth',
+'Youth/Baselayer/Suit':'Mountain Gear/Base Layer/Youth',
+'Youth/Baselayer/Top':'Mountain Gear/Base Layer/Youth',
+'Youth/Outerwear/Gloves':'Mountain Gear/Gloves/Youth',
+'Youth/Outerwear/Jacket':'Mountain Gear/Jacket/Youth',
+'Youth/Outerwear/Mittens':'Mountain Gear/Mittens/Youth',
+'Youth/Outerwear/Pants':'Mountain Gear/Pants/Youth'}
 
 df['webName'] = (df.name.str.title() + ' ' + df.year.fillna('')).str.strip()
 df['itemType'] = np.nan
 df.drop(columns = ['name','year','qty0','qty1','pSWAP','fCreated','fRcvd',
                     'lRcvd','lSold','lEdit','VC','DCS','D','C','S','isid'], inplace=True)
-df.CAT = df.CAT.map(dCAT)
 
-#%%
+# map to web categories
+df.CAT = df.CAT.map(dCAT)
 
 # DELETE ME ONCE CAT(egorie)S ARE GOOD
 df.CAT = df.CAT.fillna('Misc')
+
+#title out brands
 df.BRAND = df.BRAND.str.title()
+
+#words
+words = df[['webName','BRAND', 'color', 'size','alu','sku','description']]
+df['words'] = words.fillna('').apply(' '.join,axis=1).str.lower()
+df['words_short'] = words.drop('description',axis=1)\
+    .fillna('').apply(' '.join,axis=1).str.lower()
+
+"""COLORS"""
+# made everything Terracotta And Black, use with caution
+# cMap = df[['color','alt_color']].dropna()
+# cMap = cMap[~cMap.alt_color.str.contains(r'[0-9]')]
+# cMap = cMap.drop_duplicates()
+# cMap = cMap[cMap.color!=cMap.alt_color]
+# cMap = cMap[~(cMap.alt_color.str.contains('COMPLETE')\
+#             | cMap.alt_color.str.contains('TRIM-TO-FIT'))]
+# for s in [' /','/ ',' / ']:
+#     cMap.alt_color = cMap.alt_color.replace(s,'/')
+# cMap.alt_color = cMap.alt_color.str.title()
+# cMap = cMap.set_index('color',drop=True)
+# cMap.to_csv('colorMap.csv')
+cMap = pd.read_csv('colorMap.csv').set_index('color',drop=True)
+cMap = cMap.to_dict()
+
+df.color = df.color.map(cMap['alt_color'])
+df.drop('alt_color',axis=1,inplace=True)
+"""
+In [236]: cMap.nunique()
+Out[236]: 
+color        1900
+alt_color    1724
+dtype: int64
+"""
+
+df.to_pickle('preOp.pkl')
+
+#%% CONFIGURE PRODUCT OPTIONS, GEROUPS BY webName
+
+df = pd.read_pickle('preOp.pkl')
 
 def options(row):
     if pd.notnull(row.color) and pd.notnull(row["size"]):
@@ -421,6 +419,9 @@ def options(row):
 
 def convert(x):
     if len(x.index) > 1:
+        
+        
+        """BASE PRODUCT"""
         fr = x.iloc[0:1,:].copy()
         # print(fr[cols])
         fr.color = np.nan
@@ -438,25 +439,28 @@ def convert(x):
         fr.itemType = 'Product'
         fr.sku = '0-' + fr.sku
         fr.cost = x.cost.max()
-        fr.pMAP = x.pSale.min()
-        fr.pAmazon = x.pAmazon.min()
+        fr.pSale = x.pSale.min()
+        fr.pMSRP = x.pMSRP.max()
+        fr.pMAP = x.pMAP.max()
+
         
         """SKUs"""
         skus = x.copy()
         skus.itemType = 'SKU'
         skus.sku = '1-' + skus.sku
-        
+        skus.cost = np.where(skus.cost!=skus.loc[skus.index.min(),'cost'],\
+                             '[FIXED]' + skus.cost.astype(str),\
+                             np.nan)
         skus = skus.apply(\
                     lambda x: options(x), axis = 1)
         
         """RULES"""
         rules = x.copy()
         rules.itemType = 'Rule'
-        rules.pMAP = '[FIXED]' + rules.pSale.astype(str)
-        # rules.pAmazon = '[FIXED]' + rules.pAmazon.astype(str)
-        # rules.pSale = '[FIXED]' + rules.pSale.astype(str)
-        # rules.pMAP = '[FIXED]' + rules.pMAP.astype(str)
-        # rules.pMSRP = '[FIXED]' + rules.pMSRP.astype(str)
+        for col in ['pSale','pMAP','pMSRP']:
+            rules[col] = np.where(rules[col]!=rules.loc[rules.index.min(),col],\
+                                  '[FIXED]' + rules[col].astype(str),\
+                                  np.nan)
         rules.sku = '1-' + rules.sku
         
         return fr.append(skus).append(rules)
@@ -465,94 +469,73 @@ def convert(x):
         x.itemType = 'Product'
         return x   
 
-df = df.groupby('webName').apply(convert).reset_index(drop=True)
+print('configuring product options')
 
-# mods
-df['PP'] = np.where(df.qty>0,'Y','N')
-df['PV'] = np.where((df.pic0.notnull())&(df.qty>0),'Y','N')
-df['words'] = df[['webName','BRAND', 'color', 'size']] \
-    .fillna('').apply(' '.join, axis=1).str.replace(' ',', ')
-
+df = df.groupby('webName',sort=False).apply(convert).reset_index(drop=True)
+df = df.replace('[FIXED]nan',np.nan)
 df.to_pickle('optionDf.pkl')
 
+print('options configured, issuing API call to BigCommerce to pull changes from admin panel.')
+
+#%% API CALL TO BC
+
+def productIDs(n):
+    # &include_fields=sku
+    path = base + f'v3/catalog/products?limit=250&page={n}&include=variants,images'
+    res = requests.get(url=path, headers=headers)
+    return json.loads(res.text)
+
+firstPage = productIDs(1)
+data = firstPage['data']
+totalPages = firstPage['meta']['pagination']['total_pages']
+for i in range(2,totalPages+1):
+    #currently 31 pages
+    data.extend(productIDs(i)['data'])
+    
+print('API call complete')
+
+pIds = pd.json_normalize(data)[['id','sku','variants','images']]
+vIds = pd.json_normalize(pIds.variants.sum())[['sku_id','sku']]\
+    .rename({'sku_id':'id'}, axis=1).dropna()
+pIds.drop('variants',axis=1,inplace=True)
+vIds.id = vIds.id.astype(int).astype(str)
+pIds['Item Type'] = 'Product'
+vIds['Item Type'] = 'SKU'
+pIds['Product Image File - 1'] = pIds.images.astype(str)\
+                                        .replace('[]',np.nan)
+pIds.drop('images',axis=1,inplace=True)
+ids = pd.concat([pIds,vIds]).astype(str)
+ids = ids.rename({'sku':'Product Code/SKU',
+                  'id':'Product ID'},axis=1)\
+        .set_index('Product Code/SKU')
 
 
-#%%
-
-# uploady time baby
+#%% CONFIGURE THE OUT FILE
+# sparsifies data near end of cell
 
 df = pd.read_pickle('optionDf.pkl')
 
 out = pd.DataFrame(columns = ['Item Type',
-                                'Product ID',
                                 'Product Name',
-                                'Product Type',
                                 'Product Code/SKU',
-                                'Bin Picking Number',
                                 'Brand Name',
                                 'Option Set',
-                                'Option Set Align',
                                 'Product Description',
                                 'Price',
                                 'Cost Price',
                                 'Retail Price',
                                 'Sale Price',
-                                'Fixed Shipping Cost',
-                                'Free Shipping',
                                 'Product Warranty',
                                 'Product Weight',
-                                'Product Width',
-                                'Product Height',
-                                'Product Depth',
-                                'Allow Purchases?',
                                 'Product Visible?',
-                                'Product Availability',
-                                'Track Inventory',
                                 'Current Stock Level',
-                                'Low Stock Level',
+                                'Track Inventory',
                                 'Category',
-                                'Product Image ID - 1',
-                                'Product Image File - 1',
-                                'Product Image Description - 1',
-                                'Product Image Is Thumbnail - 1',
-                                'Product Image Sort - 1',
-                                'Product Image ID - 2',
-                                'Product Image File - 2',
-                                'Product Image Description - 2',
-                                'Product Image Is Thumbnail - 2',
-                                'Product Image Sort - 2',
                                 'Search Keywords',
                                 'Page Title',
                                 'Meta Keywords',
                                 'Meta Description',
-                                'MYOB Asset Acct',
-                                'MYOB Income Acct',
-                                'MYOB Expense Acct',
-                                'Product Condition',
-                                'Show Product Condition?',
-                                'Event Date Required?',
-                                'Event Date Name',
-                                'Event Date Is Limited?',
-                                'Event Date Start Date',
-                                'Event Date End Date',
-                                'Sort Order',
-                                'Product Tax Class',
-                                'Product UPC/EAN',
-                                'Stop Processing Rules',
-                                'Product URL',
-                                'Redirect Old URL?',
-                                'GPS Global Trade Item Number',
-                                'GPS Manufacturer Part Number',
-                                'GPS Gender',
-                                'GPS Age Group',
-                                'GPS Color',
-                                'GPS Size',
-                                'GPS Material',
-                                'GPS Pattern',
-                                'GPS Item Group ID',
-                                'GPS Category',
-                                'GPS Enabled'])
-
+                                'Product UPC/EAN'])
 
 dCol = {'Cost Price':'cost',
         'Retail Price':'pMSRP',
@@ -568,9 +551,7 @@ dCol = {'Cost Price':'cost',
         'Category':'CAT',
         'Option Set':'webName',
         'Item Type':'itemType',
-        'Product Visible?':'PV',
-        'Allow Purchases?':'PP',
-        'Search Keywords':'words',
+        'Search Keywords':'words_short',
         'Meta Keywords':'words',
         'Meta Description':'description',
         'Page Title':'webName'}
@@ -578,241 +559,159 @@ dCol = {'Cost Price':'cost',
 for k,v in dCol.items():
     out[k] = df[v]
 
-# del dCol, k, v
-
 out[[f'Product Image File - {i+1}' for i in range(5)]]\
     = df[[f'pic{i}' for i in range(5)]]
-out = out.reindex(out.columns.to_list()\
-                  +[f"Product Image ID - {i}" for i in range(3,6)]\
-                  +[f'Product Image Description - {i}' for i in range(3,6)],\
-                      axis=1)
 for i in range(1,6):
-    out[f"Product Image Description - {i}"] = df.words
-    out[f'Product Image Sort - {i}'] = i
+    out.loc[out[f'Product Image File - {i}'].notna(),\
+            f'Product Image Description - {i}']=df.words_short
+    
 out["Product Type"] = 'P'
+out['Product Weight'] = 0
+out['Product Inventoried'] = 'Y'
 
-# del i
-
-
-
-# sparsify data.
+# sparsify data
 out.loc[out['Item Type']=='Rule',\
         ['Product Name',\
          'Cost Price',\
-         'Free Shipping',\
          'Current Stock Level',\
-         'Low Stock Level',\
          'Product UPC/EAN']] = ''
-out.loc[out['Item Type']=='SKU',\
-        [c for c in out.columns \
-         if c.startswith('Product Image')]] = ''        
-out.loc[out['Item Type']=='SKU','Price'] = '' 
+        
+out.loc[out['Item Type']=='SKU',['Price','Sale Price','Retail Price']\
+                                + [c for c in out.columns \
+                                   if c.startswith('Product Image')]] = '' 
+
 out.loc[out['Item Type'].isin(['SKU','Rule']),\
         ['Product Type',\
          'Brand Name',\
          'Product Description',\
-         'Fixed Shipping Cost',\
          'Product Warranty',\
          'Product Weight',\
          'Search Keywords',\
          'Page Title',\
          'Meta Description',\
-         'Product Condition',\
-         'Show Product Condition?',\
          'Category',\
          'Meta Keywords',\
          'Meta Description',\
          'Option Set']] = ''
+    
 out.loc[out['Product Code/SKU'].str.contains('0-'),'Track Inventory']\
     = 'by option'    
 out.loc[out['Product Code/SKU'].str.contains('2-'),'Track Inventory']\
     = 'by product'
-out['Product Inventoried'] = 'Y'
+
 out.replace('',np.nan, inplace=True)
-out.dropna(axis=1, how='all', inplace=True)
 
-
-out['Product Weight'] = 0
-
-
-file =glob('in/*')[0]
-ix = ['Item Type', 'Product Code/SKU']
-# ix = ['itemType','sku']
-imgCols = ['Product Image ID - 1',
- 'Product Image File - 1',
- 'Product Image Path - 1',
- 'Product Image URL - 1',
- 'Product Image Description - 1',
- 'Product Image Is Thumbnail - 1',
- 'Product Image Index - 1',
- 'Product Image ID - 2',
- 'Product Image File - 2',
- 'Product Image Path - 2',
- 'Product Image URL - 2',
- 'Product Image Description - 2',
- 'Product Image Is Thumbnail - 2',
- 'Product Image Index - 2',
- 'Product Image ID - 3',
- 'Product Image File - 3',
- 'Product Image Path - 3',
- 'Product Image URL - 3',
- 'Product Image Description - 3',
- 'Product Image Is Thumbnail - 3',
- 'Product Image Index - 3',
- 'Product Image ID - 4',
- 'Product Image File - 4',
- 'Product Image Path - 4',
- 'Product Image URL - 4',
- 'Product Image Description - 4',
- 'Product Image Is Thumbnail - 4',
- 'Product Image Index - 4',
- 'Product Image ID - 5',
- 'Product Image File - 5',
- 'Product Image Path - 5',
- 'Product Image URL - 5',
- 'Product Image Description - 5',
- 'Product Image Is Thumbnail - 5',
- 'Product Image Index - 5']
-
-# comp = pd.read_csv(file)\
-#     .rename(columns={\
-#                     'Product Visible':'Product Visible?',
-#                     'Allow Purchases':'Allow Purchases?',
-#                     'Description':'Product Description',
-#                     'Product SKU':'Product Code/SKU',
-#                     'Category String':'Category',
-#                     'Weight':'Product Weight'\
-#               })
-
-# comp.loc[:,ix[0]]=comp.loc[:,ix[0]].str.strip()
-# comp.set_index(ix,inplace=True)
-# # for production
-# end = dt.now()
-# os.rename(file,f'archive/ins/in_{str(end.date())} {end.hour}-{end.minute}-{end.second}.csv')
-# cols = imgCols\
-#     +['Product ID','Product Description']
-# out = out.reindex(list(set(out.columns.tolist()+cols)),axis=1).set_index(ix)
-# out.update(comp.loc[:,cols])
-# out = out.reset_index()
-# out['Product ID'] = out['Product ID'].fillna('-1.0').astype(float).astype(int).astype(str).replace('-1',np.nan)
-
-
-
-
-
-
-"""WITH IN FILE"""
-
-comp = pd.read_csv(file,dtype={'Product ID':str}).rename(columns={'Product SKU':'Product Code/SKU'})                                
-comp.loc[:,'Item Type'] = comp['Item Type'].str.strip()
-out = out.reindex(out.columns.tolist()+['Product ID'],axis=1)
-out.set_index(ix,inplace=True)
-comp.set_index(ix, inplace=True)
-out.update(comp)
+        
+out['Product ID'] = np.nan
+out.set_index('Product Code/SKU',inplace=True)
+out.update(ids[['Product ID','Product Image File - 1']])
 out.reset_index(inplace=True)
-out = out.reindex(sorted(out.columns),axis=1)
 
-
-
-"""WITH API"""
-#%%
-
-def skusIds(n):
+# sparsify (almost) all data for products that only need to be updated
+cols = [\
+  # 'Item Type',
+  # 'Product Code/SKU',
+  # 'Product ID',
+  # 'Product Name',
+  'Brand Name',
+  'Option Set',
+  'Product Description',
+  # 'Price',
+  # 'Cost Price',
+  # 'Retail Price',
+  # 'Sale Price',
+  # 'Product Warranty',
+  'Product Weight',
+  'Product Visible?',
+  'Track Inventory',
+  # 'Current Stock Level',
+  'Category',
+  'Search Keywords',
+  'Page Title',
+  'Meta Keywords',
+  'Meta Description',
+  'Product UPC/EAN',
+  # 'Product Image File - 1',
+  'Product Image File - 2',
+  'Product Image File - 3',
+  'Product Image File - 4',
+  'Product Image File - 5',
+  'Product Image Description - 1',
+  'Product Image Description - 2',
+  'Product Image Description - 3',
+  'Product Image Description - 4',
+  'Product Image Description - 5',
+  'Product Type',
+  'Product Inventoried']
     
+out.loc[out['Product ID'].notna(),cols]=np.nan
+
+out.loc[out['Item Type']=='Rule','Product ID'] = np.nan
+out['Product Image File - 1'] = out['Product Image File - 1'].replace('nan',np.nan)
+out.loc[out['Item Type']=='Product','Product Visible?'] \
+    = np.where(\
+        out.loc[out['Item Type']=='Product','Product Image File - 1'].notna()\
+        ,'Y','N')
+
+out.loc[:,'Product Image File - 1'] = np.nan
+
+#%% WRITE TO CSV 
+end = dt.now()
+out = out.dropna(thresh=4)
+out.dropna(how='all',axis=1,inplace=True)
+out.reset_index(inplace=True, drop=True)
+out['Sort Order'] = np.where(out['Item Type']=='Product',\
+                             [len(out)-i for i in out.index],\
+                             np.nan)
+out = out[out.columns[-2:].tolist()+out.columns[:-2].tolist()]
+out.to_csv('out/out.csv', quotechar="\"", index=False)
+# out.to_pickle(f'archive/outs/out_{str(end.date())} {end.hour}-{end.minute}-{end.second}.pkl')
+
+#%% ORDERS
+
+def getAllOrders():
+    path = base + 'v2/orders'
+    # ?min_date_created=<string>
+    # <string>:
+    """ 
+    Minimum date the order was created in RFC-2822 or ISO-8601.
+    RFC-2822: `Thu, 20 Apr 2017 11:32:00 -0400`
+    ISO-8601: `2017-04-20T11:32:00.000-04:00`
     """
-    
-    In [66]: x = getSkusFromPage(4)
-    
-    In [67]: x['meta']['pagination']['total_pages']
-    Out[68]: 31
-    
-    In [68]: x['data']
-    Out[69]: 
-    [{'id': 172356, 'sku': '0-06738'},
-     {'id': 172357, 'sku': '0-14688'},
-     {'id': 172358, 'sku': '0-07251'},
-     {'id': 172359, 'sku': '2-04474'},
-     {'id': 172360, 'sku': '0-00729'},
-     {'id': 172361, 'sku': '2-00510'},
-     {'id': 172362, 'sku': '2-33231'},
-     {'id': 172363, 'sku': '0-24316'},
-     {'id': 172364, 'sku': '0-30488'},
-     
-     
-    In [68]: pd.DataFrame(x['data'])
-    Out[70]: 
-             id      sku
-    0    172356  0-06738
-    1    172357  0-14688
-    2    172358  0-07251
-    3    172359  2-04474
-    4    172360  0-00729
-    ..      ...      ...
-    245  172601  0-05536
-    246  172602  0-49575
-    247  172603  0-03107
-    248  172604  2-03106
-    249  172605  0-48275
-
-    Parameters
-    ----------
-    n : the page number, right now betwwen 1 and 31 inclusive
-    
-    Returns
-    -------
-    json response object
-    
-    """
-    headers = {
-    'x-auth-client': "eptlgcc4vesdj5jp2as53w2gm6iyg7z",
-    'x-auth-token': "9ksoui1m1rfkhvdm40zxv4ov605o1cc",
-    'accept': 'application/json'
-    } # access tokens    
-    base = 'https://api.bigcommerce.com/stores/gaywsgumtw/'
-    path = base + f'v3/catalog/variants?limit=250&include_fields=sku&page={n}'
     res = requests.get(url=path, headers=headers)
     return json.loads(res.text)
 
-call = skusIds(1)
-data = call['data']
-pages = call['meta']['pagination']['total_pages']
-for i in range(2,pages+1):
-    print(f'{i}/{pages} calls made')
-    data.extend(skusIds(i)['data'])
+def getOrderProducts(i):
+    path = base + f'v2/orders/{i}/products'
+    res = requests.get(url=path, headers=headers)
+    return json.loads(res.text)
 
-ids = pd.DataFrame(data)
-ids.to_pickle('calledIDs.pkl')
+def getOrderShipping(i):
+    path = base + f'v2/orders/{i}/shipping_addresses'
+    res = requests.get(url=path, headers=headers)
+    return json.loads(res.text)
 
 
-#%%
+orders = getAllOrders()
+oDf = pd.json_normalize(orders)
 
-out.to_csv('out/out.csv', quotechar="\"", index=False)
+
+
+names = [os.path.basename(x) for x in glob('orders/*')]
+for i in oDf.id.tolist():
+    o = oDf[oDf.id==i].reset_index()
+    p = pd.json_normalize(getOrderProducts(i))
+    p.columns = 'p.' + p.columns
+    s = pd.json_normalize(getOrderShipping(i))
+    s.columns = 's.' + s.columns
+    if str(i) + '.txt' not in names:
+        with open(f'orders/{i}.txt','w') as file:
+            file.write(o.status.iloc[0] + '\n\n')
+            file.write(str(pd.concat([o,p,s],axis=1).T))
+            
 end = dt.now()
-out.to_pickle(f'archive/outs/out_{str(end.date())} {end.hour}-{end.minute}-{end.second}.pkl')
-
-print('Process complete!')
-# del beginning, end, df, out
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(f'Process completed in ~{int(((end-beginning).seconds)/60)} minutes\n\n',
+      'Please upload "out.csv" to BigCommerce at your nearest convenience.\n',
+      'from hillcrestsports.com/admin, select Products > Import\n',
+      'choose file "out.csv"\n',
+      'Select "Overwrite Existing Products,\n\t"Next>"\n\t"Start Import"')

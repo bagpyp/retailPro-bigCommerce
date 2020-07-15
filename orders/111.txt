@@ -1,0 +1,170 @@
+Incomplete
+
+                                                                                              0                                                  1
+index                                                                                        11                                                NaN
+id                                                                                          111                                                NaN
+customer_id                                                                                   0                                                NaN
+date_created                                                    Mon, 13 Jul 2020 00:56:21 +0000                                                NaN
+date_modified                                                   Mon, 13 Jul 2020 00:56:21 +0000                                                NaN
+date_shipped                                                                                                                                   NaN
+status_id                                                                                     0                                                NaN
+status                                                                               Incomplete                                                NaN
+subtotal_ex_tax                                                                        109.9800                                                NaN
+subtotal_inc_tax                                                                       109.9800                                                NaN
+subtotal_tax                                                                             0.0000                                                NaN
+base_shipping_cost                                                                       0.0000                                                NaN
+shipping_cost_ex_tax                                                                     0.0000                                                NaN
+shipping_cost_inc_tax                                                                    0.0000                                                NaN
+shipping_cost_tax                                                                        0.0000                                                NaN
+shipping_cost_tax_class_id                                                                    2                                                NaN
+base_handling_cost                                                                       0.0000                                                NaN
+handling_cost_ex_tax                                                                     0.0000                                                NaN
+handling_cost_inc_tax                                                                    0.0000                                                NaN
+handling_cost_tax                                                                        0.0000                                                NaN
+handling_cost_tax_class_id                                                                    2                                                NaN
+base_wrapping_cost                                                                       0.0000                                                NaN
+wrapping_cost_ex_tax                                                                     0.0000                                                NaN
+wrapping_cost_inc_tax                                                                    0.0000                                                NaN
+wrapping_cost_tax                                                                        0.0000                                                NaN
+wrapping_cost_tax_class_id                                                                    3                                                NaN
+total_ex_tax                                                                           109.9800                                                NaN
+total_inc_tax                                                                          109.9800                                                NaN
+total_tax                                                                                0.0000                                                NaN
+items_total                                                                                   2                                                NaN
+items_shipped                                                                                 0                                                NaN
+payment_method                                                                    Authorize.net                                                NaN
+payment_provider_id                                                                           0                                                NaN
+payment_status                                                                         declined                                                NaN
+refunded_amount                                                                          0.0000                                                NaN
+order_is_digital                                                                          False                                                NaN
+store_credit_amount                                                                      0.0000                                                NaN
+gift_certificate_amount                                                                  0.0000                                                NaN
+ip_address                                                                        47.20.156.193                                                NaN
+geoip_country                                                                     United States                                                NaN
+geoip_country_iso2                                                                           US                                                NaN
+currency_id                                                                                   1                                                NaN
+currency_code                                                                               USD                                                NaN
+currency_exchange_rate                                                             1.0000000000                                                NaN
+default_currency_id                                                                           1                                                NaN
+default_currency_code                                                                       USD                                                NaN
+staff_notes                                                                                                                                    NaN
+customer_message                                                                                                                               NaN
+discount_amount                                                                          0.0000                                                NaN
+coupon_discount                                                                          0.0000                                                NaN
+shipping_address_count                                                                        1                                                NaN
+is_deleted                                                                                False                                                NaN
+ebay_order_id                                                                                 0                                                NaN
+cart_id                                                    ffa09c3a-904d-4840-b17f-2e6e69176558                                                NaN
+is_email_opt_in                                                                           False                                                NaN
+credit_card_type                                                               american_express                                                NaN
+order_source                                                                                www                                                NaN
+channel_id                                                                                    1                                                NaN
+external_source                                                                                                                                NaN
+external_id                                                                                None                                                NaN
+external_merchant_id                                                                       None                                                NaN
+tax_provider_id                                                                BasicTaxProvider                                                NaN
+store_default_currency_code                                                                 USD                                                NaN
+store_default_to_transactional_exchange_rate                                       1.0000000000                                                NaN
+custom_status                                                                        Incomplete                                                NaN
+billing_address.first_name                                                              Richard                                                NaN
+billing_address.last_name                                                                Kunzer                                                NaN
+billing_address.company                                                                                                                        NaN
+billing_address.street_1                                                           19 Farm Lane                                                NaN
+billing_address.street_2                                                                                                                       NaN
+billing_address.city                                                               East Hampton                                                NaN
+billing_address.state                                                                  New York                                                NaN
+billing_address.zip                                                                       11937                                                NaN
+billing_address.country                                                           United States                                                NaN
+billing_address.country_iso2                                                                 US                                                NaN
+billing_address.phone                                                                9175445141                                                NaN
+billing_address.email                                                   richardkunzer@gmail.com                                                NaN
+billing_address.form_fields                                                                  []                                                NaN
+products.url                                  https://api.bigcommerce.com/stores/gaywsgumtw/...                                                NaN
+products.resource                                                          /orders/111/products                                                NaN
+shipping_addresses.url                        https://api.bigcommerce.com/stores/gaywsgumtw/...                                                NaN
+shipping_addresses.resource                                      /orders/111/shipping_addresses                                                NaN
+coupons.url                                   https://api.bigcommerce.com/stores/gaywsgumtw/...                                                NaN
+coupons.resource                                                            /orders/111/coupons                                                NaN
+p.id                                                                                         13                                                 14
+p.order_id                                                                                  111                                                111
+p.product_id                                                                             186399                                             185176
+p.variant_id                                                                             427332                                             423816
+p.order_address_id                                                                           12                                                 12
+p.name                                                                 Boston Valve 2 Pack 2020                   25' Riot Surf Rope W/Handle 2020
+p.sku                                                                                   2-51366                                            1-30501
+p.upc                                                                               54065599450                                                   
+p.type                                                                                 physical                                           physical
+p.base_price                                                                             9.9900                                            99.9900
+p.price_ex_tax                                                                           9.9900                                            99.9900
+p.price_inc_tax                                                                          9.9900                                            99.9900
+p.price_tax                                                                              0.0000                                             0.0000
+p.base_total                                                                             9.9900                                            99.9900
+p.total_ex_tax                                                                           9.9900                                            99.9900
+p.total_inc_tax                                                                          9.9900                                            99.9900
+p.total_tax                                                                              0.0000                                             0.0000
+p.weight                                                                                 0.0000                                             0.0000
+p.width                                                                                  0.0000                                             0.0000
+p.height                                                                                 0.0000                                             0.0000
+p.depth                                                                                  0.0000                                             0.0000
+p.quantity                                                                                    1                                                  1
+p.base_cost_price                                                                        5.3300                                            52.7900
+p.cost_price_inc_tax                                                                     5.3300                                            52.7900
+p.cost_price_ex_tax                                                                      5.3300                                            52.7900
+p.cost_price_tax                                                                         0.0000                                             0.0000
+p.is_refunded                                                                             False                                              False
+p.quantity_refunded                                                                           0                                                  0
+p.refund_amount                                                                          0.0000                                             0.0000
+p.return_id                                                                                   0                                                  0
+p.wrapping_name                                                                                                                                   
+p.base_wrapping_cost                                                                     0.0000                                             0.0000
+p.wrapping_cost_ex_tax                                                                   0.0000                                             0.0000
+p.wrapping_cost_inc_tax                                                                  0.0000                                             0.0000
+p.wrapping_cost_tax                                                                      0.0000                                             0.0000
+p.wrapping_message                                                                                                                                
+p.quantity_shipped                                                                            0                                                  0
+p.event_name                                                                               None                                               None
+p.event_date                                                                                                                                      
+p.fixed_shipping_cost                                                                    0.0000                                             0.0000
+p.ebay_item_id                                                                                                                                    
+p.ebay_transaction_id                                                                                                                             
+p.option_set_id                                                                           46179                                              43298
+p.parent_order_product_id                                                                  None                                               None
+p.is_bundled_product                                                                      False                                              False
+p.bin_picking_number                                                                                                                              
+p.external_id                                                                              None                                               None
+p.fulfillment_source                                                                                                                              
+p.applied_discounts                                                                          []                                                 []
+p.product_options                                                                            []  [{'id': 11, 'option_id': 74480, 'order_product...
+p.configurable_fields                                                                        []                                                 []
+s.id                                                                                         12                                                NaN
+s.order_id                                                                                  111                                                NaN
+s.first_name                                                                            Richard                                                NaN
+s.last_name                                                                              Kunzer                                                NaN
+s.company                                                                                                                                      NaN
+s.street_1                                                                         19 Farm Lane                                                NaN
+s.street_2                                                                                                                                     NaN
+s.city                                                                             East Hampton                                                NaN
+s.zip                                                                                     11937                                                NaN
+s.country                                                                         United States                                                NaN
+s.country_iso2                                                                               US                                                NaN
+s.state                                                                                New York                                                NaN
+s.email                                                                 richardkunzer@gmail.com                                                NaN
+s.phone                                                                              9175445141                                                NaN
+s.items_total                                                                                 2                                                NaN
+s.items_shipped                                                                               0                                                NaN
+s.shipping_method                                                                 Free Shipping                                                NaN
+s.base_cost                                                                              0.0000                                                NaN
+s.cost_ex_tax                                                                            0.0000                                                NaN
+s.cost_inc_tax                                                                           0.0000                                                NaN
+s.cost_tax                                                                               0.0000                                                NaN
+s.cost_tax_class_id                                                                           2                                                NaN
+s.base_handling_cost                                                                     0.0000                                                NaN
+s.handling_cost_ex_tax                                                                   0.0000                                                NaN
+s.handling_cost_inc_tax                                                                  0.0000                                                NaN
+s.handling_cost_tax                                                                      0.0000                                                NaN
+s.handling_cost_tax_class_id                                                                  2                                                NaN
+s.shipping_zone_id                                                                            1                                                NaN
+s.shipping_zone_name                                                              United States                                                NaN
+s.form_fields                                                                                []                                                NaN
+s.shipping_quotes.url                         https://api.bigcommerce.com/stores/gaywsgumtw/...                                                NaN
+s.shipping_quotes.resource                    /orders/111/shipping_addresses/12/shipping_quotes                                                NaN

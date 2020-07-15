@@ -1,0 +1,168 @@
+                                                                                              0
+index                                                                                         4
+id                                                                                          104
+customer_id                                                                                   1
+date_created                                                    Fri, 05 Jun 2020 21:18:36 +0000
+date_modified                                                   Mon, 15 Jun 2020 22:27:24 +0000
+date_shipped                                                                                   
+status_id                                                                                     7
+status                                                                         Awaiting Payment
+subtotal_ex_tax                                                                          0.2400
+subtotal_inc_tax                                                                         0.2400
+subtotal_tax                                                                             0.0000
+base_shipping_cost                                                                       0.0100
+shipping_cost_ex_tax                                                                     0.0100
+shipping_cost_inc_tax                                                                    0.0100
+shipping_cost_tax                                                                        0.0000
+shipping_cost_tax_class_id                                                                    2
+base_handling_cost                                                                       0.0000
+handling_cost_ex_tax                                                                     0.0000
+handling_cost_inc_tax                                                                    0.0000
+handling_cost_tax                                                                        0.0000
+handling_cost_tax_class_id                                                                    2
+base_wrapping_cost                                                                       0.0000
+wrapping_cost_ex_tax                                                                     0.0000
+wrapping_cost_inc_tax                                                                    0.0000
+wrapping_cost_tax                                                                        0.0000
+wrapping_cost_tax_class_id                                                                    3
+total_ex_tax                                                                             0.2500
+total_inc_tax                                                                            0.2500
+total_tax                                                                                0.0000
+items_total                                                                                   1
+items_shipped                                                                                 0
+payment_method                                                                    Authorize.net
+payment_provider_id                                                                 62390759773
+payment_status                                                                       authorized
+refunded_amount                                                                          0.0000
+order_is_digital                                                                          False
+store_credit_amount                                                                      0.0000
+gift_certificate_amount                                                                  0.0000
+ip_address                                                                        67.168.227.89
+geoip_country                                                                     United States
+geoip_country_iso2                                                                           US
+currency_id                                                                                   1
+currency_code                                                                               USD
+currency_exchange_rate                                                             1.0000000000
+default_currency_id                                                                           1
+default_currency_code                                                                       USD
+staff_notes                                                                                    
+customer_message                                                                        thanks!
+discount_amount                                                                          0.0000
+coupon_discount                                                                          0.0000
+shipping_address_count                                                                        1
+is_deleted                                                                                 True
+ebay_order_id                                                                                 0
+cart_id                                                    13e292b3-c199-49fa-8440-3df018a68b03
+is_email_opt_in                                                                           False
+credit_card_type                                                                           visa
+order_source                                                                                www
+channel_id                                                                                    1
+external_source                                                                                
+external_id                                                                                None
+external_merchant_id                                                                       None
+tax_provider_id                                                                BasicTaxProvider
+store_default_currency_code                                                                 USD
+store_default_to_transactional_exchange_rate                                       1.0000000000
+custom_status                                                                  Awaiting Payment
+billing_address.first_name                                                               Robbie
+billing_address.last_name                                                            Cunningham
+billing_address.company                                                HIllcrest Ski And Sports
+billing_address.street_1                                     4139 SE Cesar E Chavez Blvd Apt 19
+billing_address.street_2                                                                       
+billing_address.city                                                                   Portland
+billing_address.state                                                                    Oregon
+billing_address.zip                                                                       97202
+billing_address.country                                                           United States
+billing_address.country_iso2                                                                 US
+billing_address.phone                                                                5038034458
+billing_address.email                                          robbie.hillcrestsports@gmail.com
+billing_address.form_fields                                                                  []
+products.url                                  https://api.bigcommerce.com/stores/gaywsgumtw/...
+products.resource                                                          /orders/104/products
+shipping_addresses.url                        https://api.bigcommerce.com/stores/gaywsgumtw/...
+shipping_addresses.resource                                      /orders/104/shipping_addresses
+coupons.url                                   https://api.bigcommerce.com/stores/gaywsgumtw/...
+coupons.resource                                                            /orders/104/coupons
+p.id                                                                                          5
+p.order_id                                                                                  104
+p.product_id                                                                             154319
+p.variant_id                                                                             322117
+p.order_address_id                                                                            5
+p.name                                                                                  Nothing
+p.sku                                                                                   2-00000
+p.upc                                                                                          
+p.type                                                                                 physical
+p.base_price                                                                             0.2400
+p.price_ex_tax                                                                           0.2400
+p.price_inc_tax                                                                          0.2400
+p.price_tax                                                                              0.0000
+p.base_total                                                                             0.2400
+p.total_ex_tax                                                                           0.2400
+p.total_inc_tax                                                                          0.2400
+p.total_tax                                                                              0.0000
+p.weight                                                                                 1.0000
+p.width                                                                                  0.0000
+p.height                                                                                 0.0000
+p.depth                                                                                  0.0000
+p.quantity                                                                                    1
+p.base_cost_price                                                                        0.0000
+p.cost_price_inc_tax                                                                     0.0000
+p.cost_price_ex_tax                                                                      0.0000
+p.cost_price_tax                                                                         0.0000
+p.is_refunded                                                                             False
+p.quantity_refunded                                                                           0
+p.refund_amount                                                                          0.0000
+p.return_id                                                                                   0
+p.wrapping_name                                                                                
+p.base_wrapping_cost                                                                     0.0000
+p.wrapping_cost_ex_tax                                                                   0.0000
+p.wrapping_cost_inc_tax                                                                  0.0000
+p.wrapping_cost_tax                                                                      0.0000
+p.wrapping_message                                                                             
+p.quantity_shipped                                                                            0
+p.event_name                                                                               None
+p.event_date                                                                                   
+p.fixed_shipping_cost                                                                    0.0100
+p.ebay_item_id                                                                                 
+p.ebay_transaction_id                                                                          
+p.option_set_id                                                                            None
+p.parent_order_product_id                                                                  None
+p.is_bundled_product                                                                      False
+p.bin_picking_number                                                                           
+p.external_id                                                                              None
+p.fulfillment_source                                                                           
+p.applied_discounts                                                                          []
+p.product_options                                                                            []
+p.configurable_fields                                                                        []
+s.id                                                                                          5
+s.order_id                                                                                  104
+s.first_name                                                                             Robbie
+s.last_name                                                                          Cunningham
+s.company                                                              HIllcrest Ski And Sports
+s.street_1                                                   4139 SE Cesar E Chavez Blvd Apt 19
+s.street_2                                                                                     
+s.city                                                                                 Portland
+s.zip                                                                                     97202
+s.country                                                                         United States
+s.country_iso2                                                                               US
+s.state                                                                                  Oregon
+s.email                                                        robbie.hillcrestsports@gmail.com
+s.phone                                                                              5038034458
+s.items_total                                                                                 1
+s.items_shipped                                                                               0
+s.shipping_method                                                                Fixed Shipping
+s.base_cost                                                                              0.0100
+s.cost_ex_tax                                                                            0.0100
+s.cost_inc_tax                                                                           0.0100
+s.cost_tax                                                                               0.0000
+s.cost_tax_class_id                                                                           2
+s.base_handling_cost                                                                     0.0000
+s.handling_cost_ex_tax                                                                   0.0000
+s.handling_cost_inc_tax                                                                  0.0000
+s.handling_cost_tax                                                                      0.0000
+s.handling_cost_tax_class_id                                                                  2
+s.shipping_zone_id                                                                            1
+s.shipping_zone_name                                                              United States
+s.form_fields                                                                                []
+s.shipping_quotes.url                         https://api.bigcommerce.com/stores/gaywsgumtw/...
+s.shipping_quotes.resource                     /orders/104/shipping_addresses/5/shipping_quotes

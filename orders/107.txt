@@ -1,0 +1,168 @@
+                                                                                              0
+index                                                                                         7
+id                                                                                          107
+customer_id                                                                                   4
+date_created                                                    Mon, 15 Jun 2020 19:37:25 +0000
+date_modified                                                   Mon, 29 Jun 2020 19:25:01 +0000
+date_shipped                                                    Mon, 29 Jun 2020 19:25:01 +0000
+status_id                                                                                    10
+status                                                                                Completed
+subtotal_ex_tax                                                                        237.9900
+subtotal_inc_tax                                                                       237.9900
+subtotal_tax                                                                             0.0000
+base_shipping_cost                                                                       0.0000
+shipping_cost_ex_tax                                                                     0.0000
+shipping_cost_inc_tax                                                                    0.0000
+shipping_cost_tax                                                                        0.0000
+shipping_cost_tax_class_id                                                                    2
+base_handling_cost                                                                       0.0000
+handling_cost_ex_tax                                                                     0.0000
+handling_cost_inc_tax                                                                    0.0000
+handling_cost_tax                                                                        0.0000
+handling_cost_tax_class_id                                                                    2
+base_wrapping_cost                                                                       0.0000
+wrapping_cost_ex_tax                                                                     0.0000
+wrapping_cost_inc_tax                                                                    0.0000
+wrapping_cost_tax                                                                        0.0000
+wrapping_cost_tax_class_id                                                                    3
+total_ex_tax                                                                           237.9900
+total_inc_tax                                                                          237.9900
+total_tax                                                                                0.0000
+items_total                                                                                   1
+items_shipped                                                                                 1
+payment_method                                                                           PayPal
+payment_provider_id                                                           4XU59595F7547044V
+payment_status                                                                         captured
+refunded_amount                                                                          0.0000
+order_is_digital                                                                          False
+store_credit_amount                                                                      0.0000
+gift_certificate_amount                                                                  0.0000
+ip_address                                                                        172.75.171.20
+geoip_country                                                                     United States
+geoip_country_iso2                                                                           US
+currency_id                                                                                   1
+currency_code                                                                               USD
+currency_exchange_rate                                                             1.0000000000
+default_currency_id                                                                           1
+default_currency_code                                                                       USD
+staff_notes                                                                                    
+customer_message                                                                               
+discount_amount                                                                          0.0000
+coupon_discount                                                                          0.0000
+shipping_address_count                                                                        1
+is_deleted                                                                                False
+ebay_order_id                                                                                 0
+cart_id                                                    ca5d6a68-0111-47eb-8920-e0f9010ed74c
+is_email_opt_in                                                                           False
+credit_card_type                                                                           None
+order_source                                                                                www
+channel_id                                                                                    1
+external_source                                                                                
+external_id                                                                                None
+external_merchant_id                                                                       None
+tax_provider_id                                                                BasicTaxProvider
+store_default_currency_code                                                                 USD
+store_default_to_transactional_exchange_rate                                       1.0000000000
+custom_status                                                                         Completed
+billing_address.first_name                                                                  Don
+billing_address.last_name                                                                  Flak
+billing_address.company                                                                        
+billing_address.street_1                                                428 Dickson Hill Circle
+billing_address.street_2                                                                       
+billing_address.city                                                              West Columbia
+billing_address.state                                                            South Carolina
+billing_address.zip                                                                  29170-2552
+billing_address.country                                                           United States
+billing_address.country_iso2                                                                 US
+billing_address.phone                                                                          
+billing_address.email                                                         donflak@gmail.com
+billing_address.form_fields                                                                  []
+products.url                                  https://api.bigcommerce.com/stores/gaywsgumtw/...
+products.resource                                                          /orders/107/products
+shipping_addresses.url                        https://api.bigcommerce.com/stores/gaywsgumtw/...
+shipping_addresses.resource                                      /orders/107/shipping_addresses
+coupons.url                                   https://api.bigcommerce.com/stores/gaywsgumtw/...
+coupons.resource                                                            /orders/107/coupons
+p.id                                                                                          8
+p.order_id                                                                                  107
+p.product_id                                                                             163901
+p.variant_id                                                                             352676
+p.order_address_id                                                                            8
+p.name                                                           Xdr 76 St C W/L10 Gw L80 19-20
+p.sku                                                                                   1-25156
+p.upc                                                                              193128005672
+p.type                                                                                 physical
+p.base_price                                                                           237.9900
+p.price_ex_tax                                                                         237.9900
+p.price_inc_tax                                                                        237.9900
+p.price_tax                                                                              0.0000
+p.base_total                                                                           237.9900
+p.total_ex_tax                                                                         237.9900
+p.total_inc_tax                                                                        237.9900
+p.total_tax                                                                              0.0000
+p.weight                                                                                 0.0000
+p.width                                                                                  0.0000
+p.height                                                                                 0.0000
+p.depth                                                                                  0.0000
+p.quantity                                                                                    1
+p.base_cost_price                                                                      180.6000
+p.cost_price_inc_tax                                                                   180.6000
+p.cost_price_ex_tax                                                                    180.6000
+p.cost_price_tax                                                                         0.0000
+p.is_refunded                                                                             False
+p.quantity_refunded                                                                           0
+p.refund_amount                                                                          0.0000
+p.return_id                                                                                   0
+p.wrapping_name                                                                                
+p.base_wrapping_cost                                                                     0.0000
+p.wrapping_cost_ex_tax                                                                   0.0000
+p.wrapping_cost_inc_tax                                                                  0.0000
+p.wrapping_cost_tax                                                                      0.0000
+p.wrapping_message                                                                             
+p.quantity_shipped                                                                            1
+p.event_name                                                                               None
+p.event_date                                                                                   
+p.fixed_shipping_cost                                                                    0.0000
+p.ebay_item_id                                                                                 
+p.ebay_transaction_id                                                                          
+p.option_set_id                                                                           45617
+p.parent_order_product_id                                                                  None
+p.is_bundled_product                                                                      False
+p.bin_picking_number                                                                           
+p.external_id                                                                              None
+p.fulfillment_source                                                                           
+p.applied_discounts                                                                          []
+p.product_options                             [{'id': 3, 'option_id': 77270, 'order_product_...
+p.configurable_fields                                                                        []
+s.id                                                                                          8
+s.order_id                                                                                  107
+s.first_name                                                                                Don
+s.last_name                                                                                Flak
+s.company                                                                                      
+s.street_1                                                              428 Dickson Hill Circle
+s.street_2                                                                                     
+s.city                                                                            West Columbia
+s.zip                                                                                29170-2552
+s.country                                                                         United States
+s.country_iso2                                                                               US
+s.state                                                                          South Carolina
+s.email                                                                       donflak@gmail.com
+s.phone                                                                                        
+s.items_total                                                                                 1
+s.items_shipped                                                                               1
+s.shipping_method                                                                 Free Shipping
+s.base_cost                                                                              0.0000
+s.cost_ex_tax                                                                            0.0000
+s.cost_inc_tax                                                                           0.0000
+s.cost_tax                                                                               0.0000
+s.cost_tax_class_id                                                                           2
+s.base_handling_cost                                                                     0.0000
+s.handling_cost_ex_tax                                                                   0.0000
+s.handling_cost_inc_tax                                                                  0.0000
+s.handling_cost_tax                                                                      0.0000
+s.handling_cost_tax_class_id                                                                  2
+s.shipping_zone_id                                                                            1
+s.shipping_zone_name                                                              United States
+s.form_fields                                                                                []
+s.shipping_quotes.url                         https://api.bigcommerce.com/stores/gaywsgumtw/...
+s.shipping_quotes.resource                     /orders/107/shipping_addresses/8/shipping_quotes

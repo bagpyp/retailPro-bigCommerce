@@ -1,0 +1,168 @@
+                                                                                              0
+index                                                                                         2
+id                                                                                          102
+customer_id                                                                                   2
+date_created                                                    Wed, 20 May 2020 22:56:51 +0000
+date_modified                                                   Mon, 29 Jun 2020 19:25:05 +0000
+date_shipped                                                    Mon, 29 Jun 2020 19:25:05 +0000
+status_id                                                                                    10
+status                                                                                Completed
+subtotal_ex_tax                                                                          9.9900
+subtotal_inc_tax                                                                         9.9900
+subtotal_tax                                                                             0.0000
+base_shipping_cost                                                                       6.9900
+shipping_cost_ex_tax                                                                     6.9900
+shipping_cost_inc_tax                                                                    6.9900
+shipping_cost_tax                                                                        0.0000
+shipping_cost_tax_class_id                                                                    2
+base_handling_cost                                                                       0.0000
+handling_cost_ex_tax                                                                     0.0000
+handling_cost_inc_tax                                                                    0.0000
+handling_cost_tax                                                                        0.0000
+handling_cost_tax_class_id                                                                    2
+base_wrapping_cost                                                                       0.0000
+wrapping_cost_ex_tax                                                                     0.0000
+wrapping_cost_inc_tax                                                                    0.0000
+wrapping_cost_tax                                                                        0.0000
+wrapping_cost_tax_class_id                                                                    3
+total_ex_tax                                                                            16.9800
+total_inc_tax                                                                           16.9800
+total_tax                                                                                0.0000
+items_total                                                                                   1
+items_shipped                                                                                 0
+payment_method                                                                      Credit Card
+payment_provider_id                                                                    ecq5s9b4
+payment_status                                                                         captured
+refunded_amount                                                                         16.9800
+order_is_digital                                                                          False
+store_credit_amount                                                                      0.0000
+gift_certificate_amount                                                                  0.0000
+ip_address                                                                       204.195.12.233
+geoip_country                                                                     United States
+geoip_country_iso2                                                                           US
+currency_id                                                                                   1
+currency_code                                                                               USD
+currency_exchange_rate                                                             1.0000000000
+default_currency_id                                                                           1
+default_currency_code                                                                       USD
+staff_notes                                                                                    
+customer_message                                                       Don't I get free fright?
+discount_amount                                                                          0.0000
+coupon_discount                                                                          0.0000
+shipping_address_count                                                                        1
+is_deleted                                                                                False
+ebay_order_id                                                                                 0
+cart_id                                                    ecdccd1e-a022-40d2-99dc-81fc0f950383
+is_email_opt_in                                                                           False
+credit_card_type                                                                           None
+order_source                                                                               ipad
+channel_id                                                                                    1
+external_source                                                                                
+external_id                                                                                None
+external_merchant_id                                                                       None
+tax_provider_id                                                                BasicTaxProvider
+store_default_currency_code                                                                 USD
+store_default_to_transactional_exchange_rate                                       1.0000000000
+custom_status                                                                         Completed
+billing_address.first_name                                                              Shellie
+billing_address.last_name                                                                  Hill
+billing_address.company                                                                        
+billing_address.street_1                                                     13682 S E LeAnn Ct
+billing_address.street_2                                                                       
+billing_address.city                                                                     Boring
+billing_address.state                                                                    Oregon
+billing_address.zip                                                                       97009
+billing_address.country                                                           United States
+billing_address.country_iso2                                                                 US
+billing_address.phone                                                              971 230 8650
+billing_address.email                                                       skishell2@yahoo.com
+billing_address.form_fields                                                                  []
+products.url                                  https://api.bigcommerce.com/stores/gaywsgumtw/...
+products.resource                                                          /orders/102/products
+shipping_addresses.url                        https://api.bigcommerce.com/stores/gaywsgumtw/...
+shipping_addresses.resource                                      /orders/102/shipping_addresses
+coupons.url                                   https://api.bigcommerce.com/stores/gaywsgumtw/...
+coupons.resource                                                            /orders/102/coupons
+p.id                                                                                          3
+p.order_id                                                                                  102
+p.product_id                                                                             144550
+p.variant_id                                                                             293072
+p.order_address_id                                                                            3
+p.name                                                                     Skier Down Flag 2020
+p.sku                                                                                  2-000523
+p.upc                                                                             0054065430210
+p.type                                                                                 physical
+p.base_price                                                                             9.9900
+p.price_ex_tax                                                                           9.9900
+p.price_inc_tax                                                                          9.9900
+p.price_tax                                                                              0.0000
+p.base_total                                                                             9.9900
+p.total_ex_tax                                                                           9.9900
+p.total_inc_tax                                                                          9.9900
+p.total_tax                                                                              0.0000
+p.weight                                                                                 3.0000
+p.width                                                                                  0.0000
+p.height                                                                                 0.0000
+p.depth                                                                                  0.0000
+p.quantity                                                                                    1
+p.base_cost_price                                                                        3.8700
+p.cost_price_inc_tax                                                                     3.8700
+p.cost_price_ex_tax                                                                      3.8700
+p.cost_price_tax                                                                         0.0000
+p.is_refunded                                                                              True
+p.quantity_refunded                                                                           1
+p.refund_amount                                                                          0.0000
+p.return_id                                                                                   0
+p.wrapping_name                                                                                
+p.base_wrapping_cost                                                                     0.0000
+p.wrapping_cost_ex_tax                                                                   0.0000
+p.wrapping_cost_inc_tax                                                                  0.0000
+p.wrapping_cost_tax                                                                      0.0000
+p.wrapping_message                                                                             
+p.quantity_shipped                                                                            0
+p.event_name                                                                               None
+p.event_date                                                                                   
+p.fixed_shipping_cost                                                                    0.0000
+p.ebay_item_id                                                                                 
+p.ebay_transaction_id                                                                          
+p.option_set_id                                                                            None
+p.parent_order_product_id                                                                  None
+p.is_bundled_product                                                                      False
+p.bin_picking_number                                                                           
+p.external_id                                                                              None
+p.fulfillment_source                                                                           
+p.applied_discounts                                                                          []
+p.product_options                                                                            []
+p.configurable_fields                                                                        []
+s.id                                                                                          3
+s.order_id                                                                                  102
+s.first_name                                                                            Shellie
+s.last_name                                                                                Hill
+s.company                                                                                      
+s.street_1                                                                   13682 S E LeAnn Ct
+s.street_2                                                                                     
+s.city                                                                                   Boring
+s.zip                                                                                     97009
+s.country                                                                         United States
+s.country_iso2                                                                               US
+s.state                                                                                  Oregon
+s.email                                                                     skishell2@yahoo.com
+s.phone                                                                            971 230 8650
+s.items_total                                                                                 1
+s.items_shipped                                                                               0
+s.shipping_method                                                          Ship by Total (Flat)
+s.base_cost                                                                              6.9900
+s.cost_ex_tax                                                                            6.9900
+s.cost_inc_tax                                                                           6.9900
+s.cost_tax                                                                               0.0000
+s.cost_tax_class_id                                                                           2
+s.base_handling_cost                                                                     0.0000
+s.handling_cost_ex_tax                                                                   0.0000
+s.handling_cost_inc_tax                                                                  0.0000
+s.handling_cost_tax                                                                      0.0000
+s.handling_cost_tax_class_id                                                                  2
+s.shipping_zone_id                                                                            1
+s.shipping_zone_name                                                              United States
+s.form_fields                                                                                []
+s.shipping_quotes.url                         https://api.bigcommerce.com/stores/gaywsgumtw/...
+s.shipping_quotes.resource                     /orders/102/shipping_addresses/3/shipping_quotes

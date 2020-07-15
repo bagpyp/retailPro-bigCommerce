@@ -1,0 +1,168 @@
+                                                                                              0
+index                                                                                         9
+id                                                                                          109
+customer_id                                                                                   0
+date_created                                                    Mon, 06 Jul 2020 03:07:06 +0000
+date_modified                                                   Mon, 13 Jul 2020 23:13:19 +0000
+date_shipped                                                                                   
+status_id                                                                                     5
+status                                                                                Cancelled
+subtotal_ex_tax                                                                         70.0000
+subtotal_inc_tax                                                                        70.0000
+subtotal_tax                                                                             0.0000
+base_shipping_cost                                                                       0.0000
+shipping_cost_ex_tax                                                                     0.0000
+shipping_cost_inc_tax                                                                    0.0000
+shipping_cost_tax                                                                        0.0000
+shipping_cost_tax_class_id                                                                    2
+base_handling_cost                                                                       0.0000
+handling_cost_ex_tax                                                                     0.0000
+handling_cost_inc_tax                                                                    0.0000
+handling_cost_tax                                                                        0.0000
+handling_cost_tax_class_id                                                                    2
+base_wrapping_cost                                                                       0.0000
+wrapping_cost_ex_tax                                                                     0.0000
+wrapping_cost_inc_tax                                                                    0.0000
+wrapping_cost_tax                                                                        0.0000
+wrapping_cost_tax_class_id                                                                    3
+total_ex_tax                                                                            70.0000
+total_inc_tax                                                                           70.0000
+total_tax                                                                                0.0000
+items_total                                                                                   1
+items_shipped                                                                                 0
+payment_method                                                                    Authorize.net
+payment_provider_id                                                                 62439794625
+payment_status                                                                       authorized
+refunded_amount                                                                          0.0000
+order_is_digital                                                                          False
+store_credit_amount                                                                      0.0000
+gift_certificate_amount                                                                  0.0000
+ip_address                                                                       67.171.131.148
+geoip_country                                                                     United States
+geoip_country_iso2                                                                           US
+currency_id                                                                                   1
+currency_code                                                                               USD
+currency_exchange_rate                                                             1.0000000000
+default_currency_id                                                                           1
+default_currency_code                                                                       USD
+staff_notes                                                                                    
+customer_message                                                                               
+discount_amount                                                                          0.0000
+coupon_discount                                                                          0.0000
+shipping_address_count                                                                        1
+is_deleted                                                                                False
+ebay_order_id                                                                                 0
+cart_id                                                    32c65997-6173-4dac-9dd8-6c5ed678f590
+is_email_opt_in                                                                           False
+credit_card_type                                                                           visa
+order_source                                                                                www
+channel_id                                                                                    1
+external_source                                                                                
+external_id                                                                                None
+external_merchant_id                                                                       None
+tax_provider_id                                                                BasicTaxProvider
+store_default_currency_code                                                                 USD
+store_default_to_transactional_exchange_rate                                       1.0000000000
+custom_status                                                                         Cancelled
+billing_address.first_name                                                              Allison
+billing_address.last_name                                                                Harney
+billing_address.company                                                                        
+billing_address.street_1                                                      3615 SE 69th Ave.
+billing_address.street_2                                                                       
+billing_address.city                                                                   Portland
+billing_address.state                                                                    Oregon
+billing_address.zip                                                                       97206
+billing_address.country                                                           United States
+billing_address.country_iso2                                                                 US
+billing_address.phone                                                                5033190099
+billing_address.email                                                  harney.allison@gmail.com
+billing_address.form_fields                                                                  []
+products.url                                  https://api.bigcommerce.com/stores/gaywsgumtw/...
+products.resource                                                          /orders/109/products
+shipping_addresses.url                        https://api.bigcommerce.com/stores/gaywsgumtw/...
+shipping_addresses.resource                                      /orders/109/shipping_addresses
+coupons.url                                   https://api.bigcommerce.com/stores/gaywsgumtw/...
+coupons.resource                                                            /orders/109/coupons
+p.id                                                                                         10
+p.order_id                                                                                  109
+p.product_id                                                                             174836
+p.variant_id                                                                             389296
+p.order_address_id                                                                           10
+p.name                                                                       Indy Neo Vest 2020
+p.sku                                                                                   1-30750
+p.upc                                                                               54065712828
+p.type                                                                                 physical
+p.base_price                                                                            70.0000
+p.price_ex_tax                                                                          70.0000
+p.price_inc_tax                                                                         70.0000
+p.price_tax                                                                              0.0000
+p.base_total                                                                            70.0000
+p.total_ex_tax                                                                          70.0000
+p.total_inc_tax                                                                         70.0000
+p.total_tax                                                                              0.0000
+p.weight                                                                                 0.0000
+p.width                                                                                  0.0000
+p.height                                                                                 0.0000
+p.depth                                                                                  0.0000
+p.quantity                                                                                    1
+p.base_cost_price                                                                       29.0903
+p.cost_price_inc_tax                                                                    29.0903
+p.cost_price_ex_tax                                                                     29.0903
+p.cost_price_tax                                                                         0.0000
+p.is_refunded                                                                             False
+p.quantity_refunded                                                                           0
+p.refund_amount                                                                          0.0000
+p.return_id                                                                                   0
+p.wrapping_name                                                                                
+p.base_wrapping_cost                                                                     0.0000
+p.wrapping_cost_ex_tax                                                                   0.0000
+p.wrapping_cost_inc_tax                                                                  0.0000
+p.wrapping_cost_tax                                                                      0.0000
+p.wrapping_message                                                                             
+p.quantity_shipped                                                                            0
+p.event_name                                                                               None
+p.event_date                                                                                   
+p.fixed_shipping_cost                                                                    0.0000
+p.ebay_item_id                                                                                 
+p.ebay_transaction_id                                                                          
+p.option_set_id                                                                           44260
+p.parent_order_product_id                                                                  None
+p.is_bundled_product                                                                      False
+p.bin_picking_number                                                                           
+p.external_id                                                                              None
+p.fulfillment_source                                                                           
+p.applied_discounts                                                                          []
+p.product_options                             [{'id': 7, 'option_id': 75618, 'order_product_...
+p.configurable_fields                                                                        []
+s.id                                                                                         10
+s.order_id                                                                                  109
+s.first_name                                                                            Allison
+s.last_name                                                                              Harney
+s.company                                                                                      
+s.street_1                                                                    3615 SE 69th Ave.
+s.street_2                                                                                     
+s.city                                                                                 Portland
+s.zip                                                                                     97206
+s.country                                                                         United States
+s.country_iso2                                                                               US
+s.state                                                                                  Oregon
+s.email                                                                harney.allison@gmail.com
+s.phone                                                                              5033190099
+s.items_total                                                                                 1
+s.items_shipped                                                                               0
+s.shipping_method                                                                 Free Shipping
+s.base_cost                                                                              0.0000
+s.cost_ex_tax                                                                            0.0000
+s.cost_inc_tax                                                                           0.0000
+s.cost_tax                                                                               0.0000
+s.cost_tax_class_id                                                                           2
+s.base_handling_cost                                                                     0.0000
+s.handling_cost_ex_tax                                                                   0.0000
+s.handling_cost_inc_tax                                                                  0.0000
+s.handling_cost_tax                                                                      0.0000
+s.handling_cost_tax_class_id                                                                  2
+s.shipping_zone_id                                                                            1
+s.shipping_zone_name                                                              United States
+s.form_fields                                                                                []
+s.shipping_quotes.url                         https://api.bigcommerce.com/stores/gaywsgumtw/...
+s.shipping_quotes.resource                    /orders/109/shipping_addresses/10/shipping_quotes

@@ -1,0 +1,168 @@
+                                                                                              0
+index                                                                                         8
+id                                                                                          108
+customer_id                                                                                   0
+date_created                                                    Sun, 21 Jun 2020 06:30:53 +0000
+date_modified                                                   Mon, 29 Jun 2020 19:24:58 +0000
+date_shipped                                                    Mon, 29 Jun 2020 19:24:58 +0000
+status_id                                                                                    10
+status                                                                                Completed
+subtotal_ex_tax                                                                        195.9700
+subtotal_inc_tax                                                                       195.9700
+subtotal_tax                                                                             0.0000
+base_shipping_cost                                                                       0.0000
+shipping_cost_ex_tax                                                                     0.0000
+shipping_cost_inc_tax                                                                    0.0000
+shipping_cost_tax                                                                        0.0000
+shipping_cost_tax_class_id                                                                    2
+base_handling_cost                                                                       0.0000
+handling_cost_ex_tax                                                                     0.0000
+handling_cost_inc_tax                                                                    0.0000
+handling_cost_tax                                                                        0.0000
+handling_cost_tax_class_id                                                                    2
+base_wrapping_cost                                                                       0.0000
+wrapping_cost_ex_tax                                                                     0.0000
+wrapping_cost_inc_tax                                                                    0.0000
+wrapping_cost_tax                                                                        0.0000
+wrapping_cost_tax_class_id                                                                    3
+total_ex_tax                                                                           195.9700
+total_inc_tax                                                                          195.9700
+total_tax                                                                                0.0000
+items_total                                                                                   1
+items_shipped                                                                                 1
+payment_method                                                                    Authorize.net
+payment_provider_id                                                                 62416762369
+payment_status                                                                         captured
+refunded_amount                                                                          0.0000
+order_is_digital                                                                          False
+store_credit_amount                                                                      0.0000
+gift_certificate_amount                                                                  0.0000
+ip_address                                                                       107.221.74.139
+geoip_country                                                                     United States
+geoip_country_iso2                                                                           US
+currency_id                                                                                   1
+currency_code                                                                               USD
+currency_exchange_rate                                                             1.0000000000
+default_currency_id                                                                           1
+default_currency_code                                                                       USD
+staff_notes                                                                                    
+customer_message                                                                               
+discount_amount                                                                          0.0000
+coupon_discount                                                                          0.0000
+shipping_address_count                                                                        1
+is_deleted                                                                                False
+ebay_order_id                                                                                 0
+cart_id                                                    84aa6949-7cfe-4fc1-b071-e0ddcf8a3c27
+is_email_opt_in                                                                           False
+credit_card_type                                                                           visa
+order_source                                                                            android
+channel_id                                                                                    1
+external_source                                                                                
+external_id                                                                                None
+external_merchant_id                                                                       None
+tax_provider_id                                                                BasicTaxProvider
+store_default_currency_code                                                                 USD
+store_default_to_transactional_exchange_rate                                       1.0000000000
+custom_status                                                                         Completed
+billing_address.first_name                                                              RICHARD
+billing_address.last_name                                                                   LEE
+billing_address.company                                                                        
+billing_address.street_1                                                    8769 Hickory Avenue
+billing_address.street_2                                                                       
+billing_address.city                                                                   Hesperia
+billing_address.state                                                                California
+billing_address.zip                                                                       92345
+billing_address.country                                                           United States
+billing_address.country_iso2                                                                 US
+billing_address.phone                                                                9099043304
+billing_address.email                                                        scarewed@gmail.com
+billing_address.form_fields                                                                  []
+products.url                                  https://api.bigcommerce.com/stores/gaywsgumtw/...
+products.resource                                                          /orders/108/products
+shipping_addresses.url                        https://api.bigcommerce.com/stores/gaywsgumtw/...
+shipping_addresses.resource                                      /orders/108/shipping_addresses
+coupons.url                                   https://api.bigcommerce.com/stores/gaywsgumtw/...
+coupons.resource                                                            /orders/108/coupons
+p.id                                                                                          9
+p.order_id                                                                                  108
+p.product_id                                                                             162686
+p.variant_id                                                                             348580
+p.order_address_id                                                                            9
+p.name                                                                             Strata 19-20
+p.sku                                                                                   1-19738
+p.upc                                                                              840056900288
+p.type                                                                                 physical
+p.base_price                                                                           195.9700
+p.price_ex_tax                                                                         195.9700
+p.price_inc_tax                                                                        195.9700
+p.price_tax                                                                              0.0000
+p.base_total                                                                           195.9700
+p.total_ex_tax                                                                         195.9700
+p.total_inc_tax                                                                        195.9700
+p.total_tax                                                                              0.0000
+p.weight                                                                                 0.0000
+p.width                                                                                  0.0000
+p.height                                                                                 0.0000
+p.depth                                                                                  0.0000
+p.quantity                                                                                    1
+p.base_cost_price                                                                      147.3900
+p.cost_price_inc_tax                                                                   147.3900
+p.cost_price_ex_tax                                                                    147.3900
+p.cost_price_tax                                                                         0.0000
+p.is_refunded                                                                             False
+p.quantity_refunded                                                                           0
+p.refund_amount                                                                          0.0000
+p.return_id                                                                                   0
+p.wrapping_name                                                                                
+p.base_wrapping_cost                                                                     0.0000
+p.wrapping_cost_ex_tax                                                                   0.0000
+p.wrapping_cost_inc_tax                                                                  0.0000
+p.wrapping_cost_tax                                                                      0.0000
+p.wrapping_message                                                                             
+p.quantity_shipped                                                                            1
+p.event_name                                                                               None
+p.event_date                                                                                   
+p.fixed_shipping_cost                                                                    0.0000
+p.ebay_item_id                                                                                 
+p.ebay_transaction_id                                                                          
+p.option_set_id                                                                           45241
+p.parent_order_product_id                                                                  None
+p.is_bundled_product                                                                      False
+p.bin_picking_number                                                                           
+p.external_id                                                                              None
+p.fulfillment_source                                                                           
+p.applied_discounts                                                                          []
+p.product_options                             [{'id': 5, 'option_id': 76792, 'order_product_...
+p.configurable_fields                                                                        []
+s.id                                                                                          9
+s.order_id                                                                                  108
+s.first_name                                                                            RICHARD
+s.last_name                                                                                 LEE
+s.company                                                                                      
+s.street_1                                                                     330 E Lambert RD
+s.street_2                                                                            suite 250
+s.city                                                                                     Brea
+s.zip                                                                                     92821
+s.country                                                                         United States
+s.country_iso2                                                                               US
+s.state                                                                              California
+s.email                                                                      scarewed@gmail.com
+s.phone                                                                              9099043304
+s.items_total                                                                                 1
+s.items_shipped                                                                               1
+s.shipping_method                                                                 Free Shipping
+s.base_cost                                                                              0.0000
+s.cost_ex_tax                                                                            0.0000
+s.cost_inc_tax                                                                           0.0000
+s.cost_tax                                                                               0.0000
+s.cost_tax_class_id                                                                           2
+s.base_handling_cost                                                                     0.0000
+s.handling_cost_ex_tax                                                                   0.0000
+s.handling_cost_inc_tax                                                                  0.0000
+s.handling_cost_tax                                                                      0.0000
+s.handling_cost_tax_class_id                                                                  2
+s.shipping_zone_id                                                                            1
+s.shipping_zone_name                                                              United States
+s.form_fields                                                                                []
+s.shipping_quotes.url                         https://api.bigcommerce.com/stores/gaywsgumtw/...
+s.shipping_quotes.resource                     /orders/108/shipping_addresses/9/shipping_quotes
